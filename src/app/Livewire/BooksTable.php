@@ -46,6 +46,18 @@ class BooksTable extends Component
     }
 
     /**
+        * On perPage change, the selected page number remains the same.
+        * To avoid issues of the user staying on a page that doesn't have results anymore,
+        * we reset the page (going back to page 1)
+        *
+        * @return void
+        */
+    public function updatingPerPage(): void
+    {
+        $this->resetPage();
+    }
+
+    /**
         * Is triggered when a table header is clicked.
         * If the clicked header was the last one to be clicked, just change orderDirection.
         * If a new header clicked, change orderField and reset orderDirection (to ASC).
