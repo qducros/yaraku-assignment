@@ -2,9 +2,9 @@
     <table class="table is-fullwidth">
         <thead class="has-background-info">
             <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Last modified</th>
+                <x-table-header :direction="$orderDirection" name="title" :field="$orderField">Title</x-table-header>
+                <x-table-header :direction="$orderDirection" name="author" :field="$orderField">Author</x-table-header>
+                <x-table-header :direction="$orderDirection" name="updated_at" :field="$orderField">Last modified</x-table-header>
                 <th></th>
             </tr>
         </thead>
