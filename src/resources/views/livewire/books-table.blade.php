@@ -58,4 +58,24 @@
             @endforelse
         </tbody>
     </table>
+
+    {{ $books->links() }}
+
+    <div class="is-flex is-justify-content-center is-align-items-center my-1">
+        <span class="mr-2">
+            {{ ($books->currentPage() - 1) * $books->perPage() + 1 }} -
+            {{ ($books->currentPage() - 1) * $books->perPage() + $books->count() }}
+            out of {{ $books->total() }}
+        </span>
+        @if($books->total() > 5)
+            <div class="select is-small">
+                <select wire:model.live="perPage">
+                    <option value="5">5 per page</option>
+                    <option value="10">10 per page</option>
+                    <option value="25">25 per page</option>
+                    <option value="50">50 per page</option>
+                </select>
+            </div>
+        @endif
+    </div>
 </div>
