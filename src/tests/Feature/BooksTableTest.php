@@ -101,3 +101,63 @@ class BooksTableTest extends TestCase
             ->test(BooksTable::class)
             ->assertSeeInOrder(['Tolkien', 'Gemmell']);
     }
+
+    public function test_can_filter_books_by_title_and_author_via_search_input()
+    {
+        Book::factory()->create(['title' => 'LoTR', 'author' => 'Tolkien']);
+        Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
+        Book::factory()->create(['title' => 'A book with si', 'author' => 'Gemmell']);
+        Book::factory()->create(['title' => 'Troy', 'author' => 'Gemmell']);
+        
+        Livewire::test(BooksTable::class)
+            ->set('search.title', 'si')
+            ->set('search.author', 'to')
+            ->assertSeeInOrder(['Silmarillion', 'Tolkien'])
+            ->assertDontSee('LoTR')
+            ->assertDontSee('Gemmell');
+    }
+
+    public function test_can_filter_books_by_title_and_author_via_url_query_string()
+    {
+        Book::factory()->create(['title' => 'LoTR', 'author' => 'Tolkien']);
+        Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
+        Book::factory()->create(['title' => 'A book with si', 'author' => 'Gemmell']);
+        Book::factory()->create(['title' => 'Troy', 'author' => 'Gemmell']);
+ 
+        Livewire::withQueryParams(['title' => 'si', 'author' => 'to'])
+            ->test(BooksTable::class)
+            ->assertSeeInOrder(['Silmarillion', 'Tolkien'])
+            ->assertDontSee('LoTR')
+            ->assertDontSee('Gemmell');
+    }
+
+    public function test_can_filter_and_sort_books_via_user_interface()
+    {
+        Book::factory()->create(['title' => 'LoTR', 'author' => 'Tolkien']);
+        Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
+        Book::factory()->create(['title' => 'A book with si', 'author' => 'Gemmell']);
+        Book::factory()->create(['title' => 'Troy', 'author' => 'Gemmell']);
+        
+        Livewire::test(BooksTable::class)
+            ->set('search.title', 'si')
+            ->set('orderField', 'author')
+            ->set('orderDirection', 'DESC')
+            ->assertSeeInOrder(['Tolkien', 'Gemmel'])
+            ->assertDontSee('LoTR')
+            ->assertDontSee('Troy');
+    }
+
+    public function test_can_filter_and_sort_books_via_url_query_string()
+    {
+        Book::factory()->create(['title' => 'LoTR', 'author' => 'Tolkien']);
+        Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
+        Book::factory()->create(['title' => 'A book with si', 'author' => 'Gemmell']);
+        Book::factory()->create(['title' => 'Troy', 'author' => 'Gemmell']);
+ 
+        Livewire::withQueryParams(['title' => 'si', 'sort_field' => 'author', 'sort_direction' => 'DESC'])
+            ->test(BooksTable::class)
+            ->assertSeeInOrder(['Tolkien', 'Gemmel'])
+            ->assertDontSee('LoTR')
+            ->assertDontSee('Troy');
+    }
+}
