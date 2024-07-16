@@ -39,7 +39,9 @@ services:
   npm:
     image: node:20
     container_name: yaraku-assignment-npm
+    ports:
+      - '5173:5173'
     working_dir: /var/www/html
-    entrypoint: ['npm']
+    command: bash -c "npm install && npm run dev -- --host"
     volumes:
       - ./src:/var/www/html
