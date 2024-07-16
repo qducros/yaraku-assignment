@@ -85,7 +85,9 @@ class BooksTable extends Component
         */
     public function setAction($action): void
     {
-        if($action === 'create') {
+        if($this->action === $action) {
+            $this->reset('action');
+        } elseif($action === 'create') {
             $this->action = $action;
         }
     }
