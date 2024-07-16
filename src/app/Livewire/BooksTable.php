@@ -61,6 +61,20 @@ class BooksTable extends Component
     }
 
     /**
+        * On page change, we reset action in case it's an action on a specific row.
+        *
+        * @return void
+        */
+    public function updatedPage(): void
+    {
+        $actionExploded = explode('-', $this->action);
+
+        if(count($actionExploded) === 2) {
+            $this->reset('action');
+        }
+    }
+
+    /**
         * Is triggered when a table header is clicked.
         * If the clicked header was the last one to be clicked, just change orderDirection.
         * If a new header clicked, change orderField and reset orderDirection (to ASC).

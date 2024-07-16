@@ -209,4 +209,23 @@ class CreateUpdateBookFormTest extends TestCase
             ->assertSet('form.title', 'Silmarillion')
             ->assertSet('form.author', 'Tolkien');
     }
+
+    public function test_can_cancel_book_edit_by_changing_page()
+    {
+        $book = Book::factory()->create(['title' => 'Lord of the Rings', 'author' => 'Tolkien']);
+        Book::factory(30)->create();
+
+        Livewire::test(BooksTable::class)
+            ->set('orderField', 'updated_at')
+            ->assertSee('Lord of the Rings')
+            ->assertSee('Tolkien')
+            ->call('setAction', 'edit-'.$book->id)
+            ->assertSet('action', 'edit-'.$book->id)
+            ->assertSeeLivewire(CreateUpdateBookForm::class)
+            ->call('nextPage')
+            ->call('previousPage')
+            ->assertSet('action', '')
+            ->assertSee('Lord of the Rings')
+            ->assertSee('Tolkien');
+    }
 }
