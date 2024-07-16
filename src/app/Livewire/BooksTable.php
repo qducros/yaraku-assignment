@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Book;
 use Illuminate\Contracts\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -14,6 +15,7 @@ use Livewire\WithPagination;
     * @property string $orderDirection  defines direction used for book ordering (default: 'ASC')
     * @property array $search  defines search parameters for table filtering
     * @property array $perPage  defines number of elements per page for pagination
+    * @property string $action  defines the action the user is about to make
     * @property array $queryString  defines query string elements with exception values
     */
 class BooksTable extends Component
@@ -27,6 +29,7 @@ class BooksTable extends Component
         'author' => ''
     ];
     public string $perPage = '5';
+    public string $action = '';
     protected array $queryString = [
         'orderField' => ['except' => '', 'as' => 'sort_field'],
         'orderDirection' => ['except' => '', 'as' => 'sort_direction'],
@@ -76,11 +79,49 @@ class BooksTable extends Component
     }
 
     /**
-     * Get the view / contents that represent the component.
-     * Pass filtered / sorted / paginated books to the view.
-     * 
-     * @return View
-     */
+        * Set the action chosen by the user to display corresponding UI.
+        * 
+        * @return void
+        */
+    public function setAction($action): void
+    {
+        if($action === 'create') {
+            $this->action = $action;
+        }
+    }
+
+    /**
+        * Listen to createUpdateBook event dispatched from CreateUpdateBookForm class.
+        * Clean the UI and add feedback to the user.
+        * 
+        * @return void
+        */
+    #[On('createUpdateBook')]
+    public function onCreateUpdateBook($action): void
+    {
+        if($action === 'create') {
+            $this->reset('action');
+        }
+    }
+
+    /**
+        * Listen to cancelAction event dispatched all form cancel button (create, update, export and delete).
+        * Clean the UI.
+        * 
+        * @return void
+        */
+    #[On('cancelAction')]
+    public function onCancelAction(): void
+    {
+        $this->reset('action');
+    }
+
+    /**
+        * Get the view / contents that represent the component.
+        * Pass filtered / sorted / paginated books to the view.
+        * 
+        * @return View
+        */
     public function render(): View
     {
         return view('livewire.books-table', [

@@ -20,6 +20,28 @@
         </div>
     </div>
 
+    <div class="is-flex is-justify-content-space-between mb-5">
+        <div>
+        </div>
+
+        <div>
+            <button class="button is-primary" wire:click="setAction('create')">
+                Create
+            </button>
+        </div>
+    </div>
+
+    <div class="has-background-light">
+        @switch($action)
+            @case('create')
+                <livewire:create-update-book-form :action="$action"/>
+                @break
+
+            @default
+
+        @endswitch
+    </div>
+
     <table class="table is-fullwidth">
         <thead class="has-background-info">
             <tr>
