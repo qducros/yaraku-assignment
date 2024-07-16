@@ -80,28 +80,36 @@ class BooksTable extends Component
 
     /**
         * Set the action chosen by the user to display corresponding UI.
-        * 
+        * If the previous action is the same as the new one, action is reset (if edit form is displayed
+        * and the user clicks the same edit button, remove the form)
+        *
+        * @param string $action  defines the action the user is about to make
         * @return void
         */
     public function setAction($action): void
     {
+        $actionExploded = explode('-', $action);
+
         if($this->action === $action) {
             $this->reset('action');
-        } elseif($action === 'create') {
+        } elseif(in_array($actionExploded[0], ['create', 'edit'])) {
             $this->action = $action;
         }
     }
 
     /**
         * Listen to createUpdateBook event dispatched from CreateUpdateBookForm class.
-        * Clean the UI and add feedback to the user.
+        * Clean the UI by resetting the action and add feedback to the user.
         * 
+        * @param string $action  defines the action the user just completed
         * @return void
         */
     #[On('createUpdateBook')]
     public function onCreateUpdateBook($action): void
     {
-        if($action === 'create') {
+        $actionExploded = explode('-', $action);
+
+        if(in_array($actionExploded[0], ['create', 'edit'])) {
             $this->reset('action');
         }
     }

@@ -67,9 +67,16 @@
                             {{ $book->updated_at }}
                         </td>
                         <td>
-                            Actions
+                            <button class="button is-info is-light" wire:click="setAction('{{ 'edit-'.$book->id }}')">Edit</button>
                         </td>
                     </tr>
+                    @if($action === 'edit-'.$book->id)
+                    <tr>
+                        <td colspan="4" class="has-background-light">
+                            <livewire:create-update-book-form :action="$action" :book="$book" :key="$book->id" />
+                        </td>
+                    </tr>
+                @endif
                 </div>
             @empty
                 <tr>
