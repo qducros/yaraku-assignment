@@ -1,4 +1,25 @@
 <div>
+    <div class="mb-5 field-body">
+        <div class="field">
+            <label for="title" class="label">Search by Title</label>
+            <p class="control has-icons-left has-icons-right">
+                <input type="text" class="input" placeholder="Search a book title" wire:model.live.debounce.500ms="search.title">
+                <span class="icon is-small is-left">
+                    <svg style="height:1em;" viewBox="0 0 12 13"><g stroke-width="2" stroke="#999999" fill="none"><path d="M11.29 11.71l-4-4"/><circle cx="5" cy="5" r="4"/></g></svg>
+                </span>
+            </p>
+        </div>
+        <div class="field">
+            <label for="title" class="label">Search by Author</label>
+            <p class="control has-icons-left has-icons-right">
+                <input type="text" class="input" placeholder="Search a book author" wire:model.live.debounce.500ms="search.author">
+                <span class="icon is-small is-left">
+                    <svg style="height:1em;" viewBox="0 0 12 13"><g stroke-width="2" stroke="#999999" fill="none"><path d="M11.29 11.71l-4-4"/><circle cx="5" cy="5" r="4"/></g></svg>
+                </span>
+            </p>
+        </div>
+    </div>
+
     <table class="table is-fullwidth">
         <thead class="has-background-info">
             <tr>

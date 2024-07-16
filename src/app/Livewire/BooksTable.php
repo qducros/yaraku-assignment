@@ -11,15 +11,22 @@ use Livewire\Component;
     *
     * @property string $orderField  field used for book ordering (default: 'title')
     * @property string $orderDirection  direction used for book ordering (default: 'ASC')
+    * @property array $search  defines search parameters for table filtering
     * @property array $queryString  defines query string elements with exception values
     */
 class BooksTable extends Component
 {
     public string $orderField = 'title';
     public string $orderDirection = 'ASC';
+    public array $search = [
+        'title' => '',
+        'author' => ''
+    ];
     protected array $queryString = [
-        'orderField' => ['except' => 'name'],
-        'orderDirection' => ['except' => 'ASC']
+        'orderField' => ['except' => ''],
+        'orderDirection' => ['except' => ''],
+        'searchTitle' => ['except' => ''],
+        'searchAuthor' => ['except' => '']
     ];
 
     /**
@@ -49,7 +56,10 @@ class BooksTable extends Component
     public function render(): View
     {
         return view('livewire.books-table', [
-            'books' => Book::orderBy($this->orderField, $this->orderDirection)->get(),
+            'books' => Book::where(
+                [['title', 'LIKE', "%{$this->search['title']}%"],
+                ['author', 'LIKE', "%{$this->search['author']}%"]])->
+                orderBy($this->orderField, $this->orderDirection)->get(),
         ]);
     }
 }
