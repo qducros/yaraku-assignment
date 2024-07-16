@@ -1,14 +1,14 @@
 <?php
- 
+
 namespace Tests\Feature\Livewire;
 
-use App\Livewire\CreateUpdateBookForm;
 use App\Livewire\BooksTable;
+use App\Livewire\CreateUpdateBookForm;
 use App\Models\Book;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
- 
+
 class CreateUpdateBookFormTest extends TestCase
 {
     use RefreshDatabase;
@@ -122,7 +122,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->call('setAction', 'edit-'.$book->id)
             ->assertSet('action', 'edit-'.$book->id);
         Livewire::test(CreateUpdateBookForm::class, ['book' => $book, 'action' => 'edit-'.$book->id])
-            ->set(['form.title' => 'Waylander', 'form.author'=> 'Gemmell'])
+            ->set(['form.title' => 'Waylander', 'form.author' => 'Gemmell'])
             ->call('save')
             ->assertDispatched('createUpdateBook');
         Livewire::test(BooksTable::class)
@@ -138,7 +138,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->call('setAction', 'edit-'.$book->id)
             ->assertSet('action', 'edit-'.$book->id);
         Livewire::test(CreateUpdateBookForm::class, ['book' => $book, 'action' => 'edit-'.$book->id])
-            ->set(['form.title' => 'book', 'form.author'=> 'auth'])
+            ->set(['form.title' => 'book', 'form.author' => 'auth'])
             ->call('save')
             ->assertHasErrors(['form.title' => ['min:5']])
             ->assertHasErrors(['form.author' => ['min:5']])
@@ -155,7 +155,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->call('setAction', 'edit-'.$book->id)
             ->assertSet('action', 'edit-'.$book->id);
         Livewire::test(CreateUpdateBookForm::class, ['book' => $book, 'action' => 'edit-'.$book->id])
-            ->set(['form.title' => '', 'form.author'=> ''])
+            ->set(['form.title' => '', 'form.author' => ''])
             ->call('save')
             ->assertHasErrors(['form.title' => ['required']])
             ->assertHasErrors(['form.author' => ['required']])

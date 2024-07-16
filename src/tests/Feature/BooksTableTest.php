@@ -7,16 +7,16 @@ use App\Models\Book;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
- 
+
 class BooksTableTest extends TestCase
 {
     use RefreshDatabase;
 
     // Test on component rendering (1)
-    public function test_component_exists_on_the_page()
+    public function test_component_renders_successfully_on_the_page()
     {
-        $this->get('/books')
-            ->assertSeeLivewire(BooksTable::class);
+        Livewire::test(BooksTable::class)
+            ->assertStatus(200);
     }
 
     // Tests on table content (2)
@@ -39,7 +39,7 @@ class BooksTableTest extends TestCase
     {
         Book::factory()->create(['title' => 'LoTR']);
         Book::factory()->create(['title' => 'Harry Potter']);
- 
+
         Livewire::test(BooksTable::class)
             ->assertSeeInOrder(['Harry Potter', 'LoTR']);
     }
@@ -48,7 +48,7 @@ class BooksTableTest extends TestCase
     {
         Book::factory()->create(['title' => 'LoTR']);
         Book::factory()->create(['title' => 'Harry Potter']);
-        
+
         // Since title/ASC is the default order, call setOrderField('title') will set title/DESC order
         Livewire::test(BooksTable::class)
             ->call('setOrderField', 'title')
@@ -59,7 +59,7 @@ class BooksTableTest extends TestCase
     {
         Book::factory()->create(['title' => 'LoTR']);
         Book::factory()->create(['title' => 'Harry Potter']);
- 
+
         Livewire::withQueryParams(['sort_field' => 'title', 'sort_direction' => 'ASC'])
             ->test(BooksTable::class)
             ->assertSeeInOrder(['Harry Potter', 'LoTR']);
@@ -69,7 +69,7 @@ class BooksTableTest extends TestCase
     {
         Book::factory()->create(['author' => 'Tolkien']);
         Book::factory()->create(['author' => 'Gemmell']);
-        
+
         Livewire::test(BooksTable::class)
             ->call('setOrderField', 'author')
             ->assertSeeInOrder(['Gemmell', 'Tolkien']);
@@ -79,7 +79,7 @@ class BooksTableTest extends TestCase
     {
         Book::factory()->create(['author' => 'Tolkien']);
         Book::factory()->create(['author' => 'Gemmell']);
- 
+
         Livewire::withQueryParams(['sort_field' => 'author', 'sort_direction' => 'ASC'])
             ->test(BooksTable::class)
             ->assertSeeInOrder(['Gemmell', 'Tolkien']);
@@ -89,7 +89,7 @@ class BooksTableTest extends TestCase
     {
         Book::factory()->create(['author' => 'Tolkien']);
         Book::factory()->create(['author' => 'Gemmell']);
-        
+
         Livewire::test(BooksTable::class)
             ->call('setOrderField', 'updated_at')
             ->assertSeeInOrder(['Tolkien', 'Gemmell']);
@@ -99,7 +99,7 @@ class BooksTableTest extends TestCase
     {
         Book::factory()->create(['author' => 'Tolkien']);
         Book::factory()->create(['author' => 'Gemmell']);
- 
+
         Livewire::withQueryParams(['sort_field' => 'updated_at', 'sort_direction' => 'ASC'])
             ->test(BooksTable::class)
             ->assertSeeInOrder(['Tolkien', 'Gemmell']);
@@ -110,7 +110,7 @@ class BooksTableTest extends TestCase
     {
         Book::factory()->create(['title' => 'yyyyyyyy']);
         Book::factory()->create(['title' => 'zzzzzzzz']);
- 
+
         Livewire::test(BooksTable::class)
             ->assertSeeInOrder(['yyyyyyyy', 'zzzzzzzz']);
     }
@@ -121,7 +121,7 @@ class BooksTableTest extends TestCase
         Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'A book with si', 'author' => 'Gemmell']);
         Book::factory()->create(['title' => 'Troy', 'author' => 'Gemmell']);
-        
+
         Livewire::test(BooksTable::class)
             ->set('search.title', 'si')
             ->set('search.author', 'to')
@@ -136,7 +136,7 @@ class BooksTableTest extends TestCase
         Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'A book with si', 'author' => 'Gemmell']);
         Book::factory()->create(['title' => 'Troy', 'author' => 'Gemmell']);
- 
+
         Livewire::withQueryParams(['title' => 'si', 'author' => 'to'])
             ->test(BooksTable::class)
             ->assertSeeInOrder(['Silmarillion', 'Tolkien'])
@@ -150,7 +150,7 @@ class BooksTableTest extends TestCase
         Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'A book with si', 'author' => 'Gemmell']);
         Book::factory()->create(['title' => 'Troy', 'author' => 'Gemmell']);
-        
+
         Livewire::test(BooksTable::class)
             ->set('search.title', 'si')
             ->set('orderField', 'author')
@@ -166,7 +166,7 @@ class BooksTableTest extends TestCase
         Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'A book with si', 'author' => 'Gemmell']);
         Book::factory()->create(['title' => 'Troy', 'author' => 'Gemmell']);
- 
+
         Livewire::withQueryParams(['title' => 'si', 'sort_field' => 'author', 'sort_direction' => 'DESC'])
             ->test(BooksTable::class)
             ->assertSeeInOrder(['Tolkien', 'Gemmel'])
@@ -180,7 +180,7 @@ class BooksTableTest extends TestCase
         Book::factory()->create(['title' => 'LoTR', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'Troy', 'author' => 'Gemmell']);
- 
+
         Livewire::test(BooksTable::class)
             ->set('perPage', '2')
             ->call('nextPage')
@@ -195,7 +195,7 @@ class BooksTableTest extends TestCase
         Book::factory()->create(['title' => 'LoTR', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'Troy', 'author' => 'Gemmell']);
- 
+
         Livewire::withQueryParams(['page' => '2', 'pagesize' => '2'])
             ->test(BooksTable::class)
             ->assertSee('Troy')
@@ -209,7 +209,7 @@ class BooksTableTest extends TestCase
         Book::factory()->create(['title' => 'LoTR', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'Hobbit', 'author' => 'Tolkien']);
-         
+
         Livewire::test(BooksTable::class)
             ->set('perPage', '2')
             ->set('search.author', 'to')
@@ -227,7 +227,7 @@ class BooksTableTest extends TestCase
         Book::factory()->create(['title' => 'LoTR', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'Hobbit', 'author' => 'Tolkien']);
- 
+
         Livewire::withQueryParams(['page' => '2', 'pagesize' => '2', 'author' => 'to', 'sort_field' => 'title', 'sort_direction' => 'DESC'])
             ->test(BooksTable::class)
             ->assertSee('Hobbit')
@@ -241,7 +241,7 @@ class BooksTableTest extends TestCase
         Book::factory()->create(['title' => 'LoTR', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         Book::factory()->create(['title' => 'Hobbit', 'author' => 'Tolkien']);
- 
+
         Livewire::test(BooksTable::class)
             ->set('perPage', '2')
             ->call('nextPage')

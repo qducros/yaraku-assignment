@@ -6,24 +6,25 @@ use App\Models\Book;
 use Livewire\Form;
 
 /**
-    * Define BookForm Livewire Form class used for create / update.
-    *
-    * @property Book $book  defines the book used for update (optional, default: null)
-    * @property string $title  defines the book title to display in the form in update case (default: '')
-    * @property string $author  defines the book author to display in the form in update case (default: '')
-    */
+ * Define BookForm Livewire Form class used for create / update.
+ *
+ * @property Book $book defines the book used for update (optional, default: null)
+ * @property string $title defines the book title to display in the form in update case (default: '')
+ * @property string $author defines the book author to display in the form in update case (default: '')
+ */
 class BookForm extends Form
 {
     public ?Book $book = null;
+
     public string $title = '';
+
     public string $author = '';
 
     /**
-        * Method to allow for filling the form with existing data and storing the book on the form object later use.
-        *
-        * @param Book $book  defines the book used for update (optional, default: null)
-        * @return void
-        */
+     * Method to allow for filling the form with existing data and storing the book on the form object later use.
+     *
+     * @param  Book  $book  defines the book used for update (optional, default: null)
+     */
     public function setBook(?Book $book = null): void
     {
         $this->book = $book;
@@ -32,10 +33,8 @@ class BookForm extends Form
     }
 
     /**
-        * Method to validate input data before either creating or updating a book.
-        *
-        * @return void
-        */
+     * Method to validate input data before either creating or updating a book.
+     */
     public function save(): void
     {
         $this->validate();
@@ -48,10 +47,8 @@ class BookForm extends Form
     }
 
     /**
-        * Returns an array of validation rules.
-        *
-        * @return array
-        */
+     * Returns an array of validation rules.
+     */
     public function rules(): array
     {
         return [
