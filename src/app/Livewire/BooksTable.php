@@ -31,7 +31,8 @@ class BooksTable extends Component
         'orderField' => ['except' => '', 'as' => 'sort_field'],
         'orderDirection' => ['except' => '', 'as' => 'sort_direction'],
         'search.title' => ['except' => '', 'as' => 'title'],
-        'search.author' => ['except' => '', 'as' => 'author']
+        'search.author' => ['except' => '', 'as' => 'author'],
+        'perPage' => ['except' => '', 'as' => 'pagesize']
     ];
 
     /**
