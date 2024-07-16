@@ -23,10 +23,10 @@ class BooksTable extends Component
         'author' => ''
     ];
     protected array $queryString = [
-        'orderField' => ['except' => ''],
-        'orderDirection' => ['except' => ''],
-        'searchTitle' => ['except' => ''],
-        'searchAuthor' => ['except' => '']
+        'orderField' => ['except' => '', 'as' => 'sort_field'],
+        'orderDirection' => ['except' => '', 'as' => 'sort_direction'],
+        'search.title' => ['except' => '', 'as' => 'title'],
+        'search.author' => ['except' => '', 'as' => 'author']
     ];
 
     /**

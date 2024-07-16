@@ -57,7 +57,7 @@ class BooksTableTest extends TestCase
         Book::factory()->create(['title' => 'LoTR']);
         Book::factory()->create(['title' => 'Harry Potter']);
  
-        Livewire::withQueryParams(['orderField' => 'title', 'orderDirection' => 'ASC'])
+        Livewire::withQueryParams(['sort_field' => 'title', 'sort_direction' => 'ASC'])
             ->test(BooksTable::class)
             ->assertSeeInOrder(['Harry Potter', 'LoTR']);
     }
@@ -65,40 +65,39 @@ class BooksTableTest extends TestCase
     public function test_can_sort_books_by_author_via_table_header_click()
     {
         Book::factory()->create(['author' => 'Tolkien']);
-        Book::factory()->create(['author' => 'Gemmel']);
+        Book::factory()->create(['author' => 'Gemmell']);
         
         Livewire::test(BooksTable::class)
             ->call('setOrderField', 'author')
-            ->assertSeeInOrder(['Gemmel', 'Tolkien']);
+            ->assertSeeInOrder(['Gemmell', 'Tolkien']);
     }
 
     public function test_can_sort_books_by_author_via_url_query_string()
     {
         Book::factory()->create(['author' => 'Tolkien']);
-        Book::factory()->create(['author' => 'Gemmel']);
+        Book::factory()->create(['author' => 'Gemmell']);
  
-        Livewire::withQueryParams(['orderField' => 'author', 'orderDirection' => 'ASC'])
+        Livewire::withQueryParams(['sort_field' => 'author', 'sort_direction' => 'ASC'])
             ->test(BooksTable::class)
-            ->assertSeeInOrder(['Gemmel', 'Tolkien']);
+            ->assertSeeInOrder(['Gemmell', 'Tolkien']);
     }
 
     public function test_can_sort_books_by_last_updated_via_table_header_click()
     {
         Book::factory()->create(['author' => 'Tolkien']);
-        Book::factory()->create(['author' => 'Gemmel']);
+        Book::factory()->create(['author' => 'Gemmell']);
         
         Livewire::test(BooksTable::class)
             ->call('setOrderField', 'updated_at')
-            ->assertSeeInOrder(['Tolkien', 'Gemmel']);
+            ->assertSeeInOrder(['Tolkien', 'Gemmell']);
     }
 
     public function test_can_sort_books_by_last_updated_via_url_query_string()
     {
         Book::factory()->create(['author' => 'Tolkien']);
-        Book::factory()->create(['author' => 'Gemmel']);
+        Book::factory()->create(['author' => 'Gemmell']);
  
-        Livewire::withQueryParams(['orderField' => 'updated_at', 'orderDirection' => 'ASC'])
+        Livewire::withQueryParams(['sort_field' => 'updated_at', 'sort_direction' => 'ASC'])
             ->test(BooksTable::class)
-            ->assertSeeInOrder(['Tolkien', 'Gemmel']);
+            ->assertSeeInOrder(['Tolkien', 'Gemmell']);
     }
-}
