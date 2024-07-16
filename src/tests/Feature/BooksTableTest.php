@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace Tests\Feature\Livewire;
 
 use App\Livewire\BooksTable;

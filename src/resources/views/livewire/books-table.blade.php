@@ -25,7 +25,7 @@
         </div>
 
         <div>
-            <button class="button is-primary" wire:click="setAction('create')">
+            <button class="button is-primary" {{ $action === 'create' ? 'disabled' : '' }} wire:click="setAction('create')">
                 Create
             </button>
         </div>
