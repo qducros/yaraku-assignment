@@ -63,9 +63,7 @@
 
     <div class="is-flex is-justify-content-center is-align-items-center my-1">
         <span class="mr-2">
-            {{ ($books->currentPage() - 1) * $books->perPage() + 1 }} -
-            {{ ($books->currentPage() - 1) * $books->perPage() + $books->count() }}
-            out of {{ $books->total() }}
+            {{ ($books->currentPage() - 1) * $books->perPage() + 1 }} - {{ ($books->currentPage() - 1) * $books->perPage() + $books->count() }} out of {{ $books->total() }}
         </span>
         @if($books->total() > 5)
             <div class="select is-small">
