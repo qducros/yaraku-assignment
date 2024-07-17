@@ -35,6 +35,8 @@ class BooksTable extends Component
 
     public string $action = '';
 
+    private array $possibleActions = ['create', 'edit', 'delete'];
+
     protected array $queryString = [
         'orderField' => ['except' => '', 'as' => 'sort_field'],
         'orderDirection' => ['except' => '', 'as' => 'sort_direction'],
@@ -103,23 +105,23 @@ class BooksTable extends Component
 
         if ($this->action === $action) {
             $this->reset('action');
-        } elseif (in_array($actionExploded[0], ['create', 'edit'])) {
+        } elseif (in_array($actionExploded[0], $this->possibleActions)) {
             $this->action = $action;
         }
     }
 
     /**
-     * Listen to createUpdateBook event dispatched from CreateUpdateBookForm class.
+     * Listen to createUpdateBook event dispatched from CreateUpdateBookForm and DeleteBookForm classes.
      * Clean the UI by resetting the action and add feedback to the user.
      *
      * @param  string  $action  defines the action the user just completed
      */
-    #[On('createUpdateBook')]
-    public function onCreateUpdateBook($action): void
+    #[On('completeAction')]
+    public function onCompleteAction($action): void
     {
         $actionExploded = explode('-', $action);
 
-        if (in_array($actionExploded[0], ['create', 'edit'])) {
+        if (in_array($actionExploded[0], $this->possibleActions)) {
             $this->reset('action');
         }
     }

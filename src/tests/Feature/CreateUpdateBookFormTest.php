@@ -31,7 +31,7 @@ class CreateUpdateBookFormTest extends TestCase
         Livewire::test(CreateUpdateBookForm::class)
             ->set(['form.title' => 'This is a book', 'form.author' => 'This is an author'])
             ->call('save')
-            ->assertDispatched('createUpdateBook');
+            ->assertDispatched('completeAction');
         Livewire::test(BooksTable::class)
             ->assertSeeInOrder(['This is a book', 'This is an author'])
             ->assertSet('action', '');
@@ -47,7 +47,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->call('save')
             ->assertHasErrors(['form.title' => ['min:5']])
             ->assertHasErrors(['form.author' => ['min:5']])
-            ->assertNotDispatched('createUpdateBook')
+            ->assertNotDispatched('completeAction')
             ->assertSee('The title field must be at least 5 characters.')
             ->assertSee('The author field must be at least 5 characters.');
     }
@@ -62,7 +62,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->call('save')
             ->assertHasErrors(['form.title' => ['required']])
             ->assertHasErrors(['form.author' => ['required']])
-            ->assertNotDispatched('createUpdateBook')
+            ->assertNotDispatched('completeAction')
             ->assertSee('The title field is required.')
             ->assertSee('The author field is required.');
     }
@@ -124,7 +124,7 @@ class CreateUpdateBookFormTest extends TestCase
         Livewire::test(CreateUpdateBookForm::class, ['book' => $book, 'action' => 'edit-'.$book->id])
             ->set(['form.title' => 'Waylander', 'form.author' => 'Gemmell'])
             ->call('save')
-            ->assertDispatched('createUpdateBook');
+            ->assertDispatched('completeAction');
         Livewire::test(BooksTable::class)
             ->assertSet('action', '')
             ->assertSeeInOrder(['Waylander', 'Gemmell']);
@@ -142,7 +142,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->call('save')
             ->assertHasErrors(['form.title' => ['min:5']])
             ->assertHasErrors(['form.author' => ['min:5']])
-            ->assertNotDispatched('createUpdateBook')
+            ->assertNotDispatched('completeAction')
             ->assertSee('The title field must be at least 5 characters.')
             ->assertSee('The author field must be at least 5 characters.');
     }
@@ -159,7 +159,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->call('save')
             ->assertHasErrors(['form.title' => ['required']])
             ->assertHasErrors(['form.author' => ['required']])
-            ->assertNotDispatched('createUpdateBook')
+            ->assertNotDispatched('completeAction')
             ->assertSee('The title field is required.')
             ->assertSee('The author field is required.');
     }

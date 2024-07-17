@@ -68,15 +68,28 @@
                         </td>
                         <td>
                             <button class="button is-info is-light" wire:click="setAction('{{ 'edit-'.$book->id }}')">Edit</button>
+                            <button class="button is-danger is-light" wire:click="setAction('{{ 'delete-'.$book->id }}')">Delete</button>
                         </td>
                     </tr>
-                    @if($action === 'edit-'.$book->id)
-                    <tr>
-                        <td colspan="4" class="has-background-light">
-                            <livewire:create-update-book-form :action="$action" :book="$book" :key="$book->id" />
-                        </td>
-                    </tr>
-                @endif
+                    @switch($action)
+                        @case('edit-'.$book->id)
+                            <tr>
+                                <td colspan="4" class="has-background-light">
+                                    <livewire:create-update-book-form :action="$action" :book="$book" :key="'edit'.$book->id" />
+                                </td>
+                            </tr>
+                            @break
+                        @case('delete-'.$book->id)
+                            <tr>
+                                <td colspan="4" class="has-background-light">
+                                    <livewire:delete-book-form :action="$action" :bookId="$book->id" :key="'delete'.$book->id" />
+                                </td>
+                            </tr>
+                            @break
+
+                        @default
+
+                    @endswitch
                 </div>
             @empty
                 <tr>

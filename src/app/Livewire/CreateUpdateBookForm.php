@@ -12,8 +12,7 @@ use Livewire\Component;
  *
  * @property Book $book defines the book used for update (optional, default: null)
  * @property BookForm $form defines the book form to access the save method
- *
- * @param  string  $action  defines the current action (optional, default: '')
+ * @property string $action defines the current action (optional, default: '')
  */
 class CreateUpdateBookForm extends Component
 {
@@ -47,7 +46,7 @@ class CreateUpdateBookForm extends Component
     {
         $this->form->save();
 
-        $this->dispatch('createUpdateBook', action: $this->action);
+        $this->dispatch('completeAction', action: $this->action);
     }
 
     /**
