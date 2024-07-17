@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use DOMDocument;
+use Illuminate\Http\Response;
 
 /**
  * Define ExportController class for csv / xml file export.
@@ -22,10 +23,10 @@ class ExportController extends Controller
     }
 
     /**
-     * On call returns a StreamedResponse containing the csv file with all fields asked by the user.
+     * On call returns a response containing the csv file with all fields asked by the user.
      * It writes to the output buffer mechanism and sends the file ready to be downloaded.
      */
-    public function exportCsv()
+    public function exportCsv(): Response
     {
         $books = Book::select($this->fields)->get()->toArray();
         $columns = array_map('ucfirst', $this->fields);
@@ -49,10 +50,10 @@ class ExportController extends Controller
     }
 
     /**
-     * On call returns a StreamedResponse containing the xml file with all fields asked by the user.
+     * On call returns a response containing the xml file with all fields asked by the user.
      * It creates a DOMDocument to allow xml indent format.
      */
-    public function exportXml()
+    public function exportXml(): Response
     {
         $books = Book::select($this->fields)->get()->toArray();
         $fileName = 'books';

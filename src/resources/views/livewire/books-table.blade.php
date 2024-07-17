@@ -28,6 +28,9 @@
             <button class="button is-primary" wire:click="setAction('create')">
                 Create
             </button>
+            <button class="button is-warning" wire:click="setAction('export_all')">
+                Export all
+            </button>
         </div>
     </div>
 
@@ -35,6 +38,10 @@
         @switch($action)
             @case('create')
                 <livewire:create-update-book-form :action="$action"/>
+                @break
+
+            @case('export_all')
+                <livewire:export-book-form :action="$action" />
                 @break
 
             @default

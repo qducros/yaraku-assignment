@@ -16,6 +16,7 @@ use Livewire\WithPagination;
  * @property array $search defines search parameters for table filtering
  * @property array $perPage defines number of elements per page for pagination
  * @property string $action defines the action the user is about to make
+ * @property array $possibleActions defines the authorized actions
  * @property array $queryString defines query string elements with exception values
  */
 class BooksTable extends Component
@@ -35,7 +36,7 @@ class BooksTable extends Component
 
     public string $action = '';
 
-    private array $possibleActions = ['create', 'edit', 'delete'];
+    private array $possibleActions = ['create', 'edit', 'delete', 'export_all'];
 
     protected array $queryString = [
         'orderField' => ['except' => '', 'as' => 'sort_field'],
