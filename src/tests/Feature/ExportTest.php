@@ -22,7 +22,7 @@ class ExportTest extends TestCase
         $response->assertStatus(200)
             ->assertHeader('Content-Type', 'text/csv')
             ->assertHeader('Content-Disposition', 'attachment; filename=books.csv');
-        
+
         $output = '';
         ob_start();
         $response->sendContent();
@@ -43,7 +43,7 @@ class ExportTest extends TestCase
         $response->assertStatus(200)
             ->assertHeader('Content-Type', 'text/csv')
             ->assertHeader('Content-Disposition', 'attachment; filename=books.csv');
-        
+
         $output = '';
         ob_start();
         $response->sendContent();
@@ -66,7 +66,7 @@ class ExportTest extends TestCase
         $response->assertStatus(200)
             ->assertHeader('Content-Type', 'text/csv')
             ->assertHeader('Content-Disposition', 'attachment; filename=books.csv');
-        
+
         $output = '';
         ob_start();
         $response->sendContent();
@@ -89,7 +89,7 @@ class ExportTest extends TestCase
         $response->assertStatus(200)
             ->assertHeader('Content-Type', 'text/xml')
             ->assertHeader('Content-Disposition', 'attachment; filename=books.xml');
-        
+
         $output = '';
         ob_start();
         $response->sendContent();
@@ -99,7 +99,7 @@ class ExportTest extends TestCase
         $this->assertStringContainsString('<root>', $output);
         $this->assertStringContainsString('</root>', $output);
 
-        foreach($books as $book) {
+        foreach ($books as $book) {
             $this->assertStringContainsString('<title>'.$book->title.'</title>', $output);
             $this->assertStringContainsString('<author>'.$book->author.'</author>', $output);
         }
@@ -114,7 +114,7 @@ class ExportTest extends TestCase
         $response->assertStatus(200)
             ->assertHeader('Content-Type', 'text/xml')
             ->assertHeader('Content-Disposition', 'attachment; filename=books.xml');
-        
+
         $output = '';
         ob_start();
         $response->sendContent();
@@ -124,7 +124,7 @@ class ExportTest extends TestCase
         $this->assertStringContainsString('<root>', $output);
         $this->assertStringContainsString('</root>', $output);
 
-        foreach($books as $book) {
+        foreach ($books as $book) {
             $this->assertStringContainsString('<title>'.$book->title.'</title>', $output);
             $this->assertStringNotContainsString('<author>'.$book->author.'</author>', $output);
         }
@@ -139,7 +139,7 @@ class ExportTest extends TestCase
         $response->assertStatus(200)
             ->assertHeader('Content-Type', 'text/xml')
             ->assertHeader('Content-Disposition', 'attachment; filename=books.xml');
-        
+
         $output = '';
         ob_start();
         $response->sendContent();
@@ -149,7 +149,7 @@ class ExportTest extends TestCase
         $this->assertStringContainsString('<root>', $output);
         $this->assertStringContainsString('</root>', $output);
 
-        foreach($books as $book) {
+        foreach ($books as $book) {
             $this->assertStringNotContainsString('<title>'.$book->title.'</title>', $output);
             $this->assertStringContainsString('<author>'.$book->author.'</author>', $output);
         }
@@ -158,7 +158,7 @@ class ExportTest extends TestCase
     /**
      * Convert a raw response to a Laravel test response instance.
      *
-     * @param  mixed $response
+     * @param  mixed  $response
      * @return \Illuminate\Testing\TestResponse
      */
     protected function toTestResponse($response)

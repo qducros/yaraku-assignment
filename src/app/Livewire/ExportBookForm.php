@@ -5,8 +5,8 @@ namespace App\Livewire;
 use App\Http\Controllers\ExportController;
 use App\Livewire\Forms\ExportForm;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Response;
 use Livewire\Component;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Define ExportBookForm Livewire Component class.
@@ -17,6 +17,7 @@ use Livewire\Component;
 class ExportBookForm extends Component
 {
     public ExportForm $form;
+
     public ?string $action = '';
 
     /**
@@ -34,12 +35,12 @@ class ExportBookForm extends Component
      * Call the ExportController related method to export the data and dispatch a livewire event to the main BookTable component
      * for user feedback.
      */
-    public function export(): Response
+    public function export(): StreamedResponse
     {
         $this->validate();
 
         $exportFields = $this->form->fields === 'all' ?
-            array('title', 'author') : array($this->form->fields);
+            ['title', 'author'] : [$this->form->fields];
         $exporter = new ExportController($fields = $exportFields);
 
         if ($this->form->filetype === 'csv') {
