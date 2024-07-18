@@ -249,4 +249,80 @@ class BooksTableTest extends TestCase
             ->assertSeeInOrder(['Hobbit', 'LoTR', 'Silmarillion'])
             ->assertSee('1 - 3 out of 3');
     }
+
+    // Tests on row selection (6)
+
+    public function test_bookIds_changes_on_page_update()
+    {
+        $books1 = Book::factory(5)->create(['title' => 'Les Miserables']);
+        $books2 = Book::factory(5)->create(['title' => 'Lord of the Rings']);
+
+        Livewire::test(BooksTable::class)
+            ->assertSet('bookIds', array_map('strval', $books1->pluck('id')->toArray()))
+            ->call('nextPage')
+            ->assertSet('bookIds', array_map('strval', $books2->pluck('id')->toArray()));
+    }
+
+    public function test_bookIds_changes_on_page_size_update()
+    {
+        $books1 = Book::factory(5)->create(['title' => 'Les Miserables']);
+        $books2 = Book::factory(5)->create(['title' => 'Lord of the Rings']);
+
+        Livewire::test(BooksTable::class)
+            ->assertSet('bookIds', array_map('strval', $books1->pluck('id')->toArray()))
+            ->set('perPage', 10)
+            ->assertSet('bookIds', array_map('strval', array_merge($books1->pluck('id')->toArray(), $books2->pluck('id')->toArray())));
+    }
+
+    public function test_bookIds_changes_on_search_update()
+    {
+        $books1 = Book::factory(5)->create(['title' => 'Les Miserables']);
+        $books2 = Book::factory(5)->create(['title' => 'Lord of the Rings']);
+
+        Livewire::test(BooksTable::class)
+            ->assertSet('bookIds', array_map('strval', $books1->pluck('id')->toArray()))
+            ->set('search.title', 'the')
+            ->assertSet('bookIds', array_map('strval', $books2->pluck('id')->toArray()));
+    }
+
+    public function test_bookIds_changes_on_sort_update()
+    {
+        $books1 = Book::factory(5)->create(['title' => 'Lord of the Rings', 'author' => 'Tolkien']);
+        $books2 = Book::factory(5)->create(['title' => 'Notre Dame de Paris', 'author' => 'Victor Hugo']);
+
+        Livewire::test(BooksTable::class)
+            ->assertSet('bookIds', array_map('strval', $books1->pluck('id')->toArray()))
+            ->set(['orderDirection' => 'DESC', 'orderField' => 'author'])
+            ->assertSet('bookIds', array_map('strval', $books2->pluck('id')->toArray()));
+    }
+
+    public function test_select_all_and_selection_reset_on_page_update()
+    {
+        $books1 = Book::factory(5)->create(['title' => 'Lord of the Rings', 'author' => 'Tolkien']);
+        $books2 = Book::factory(5)->create(['title' => 'Notre Dame de Paris', 'author' => 'Victor Hugo']);
+
+        Livewire::test(BooksTable::class)
+            ->assertSet('selectAll', false)
+            ->assertSet('selection', [])
+            ->set('selectAll', true)
+            ->set('selection', array_map('strval', $books1->pluck('id')->toArray()))
+            ->call('nextPage')
+            ->assertSet('selectAll', false)
+            ->assertSet('selection', []);
+    }
+
+    public function test_select_all_and_selection_reset_on_search_update()
+    {
+        $books1 = Book::factory(5)->create(['title' => 'Lord of the Rings', 'author' => 'Tolkien']);
+        $books2 = Book::factory(5)->create(['title' => 'Notre Dame de Paris', 'author' => 'Victor Hugo']);
+
+        Livewire::test(BooksTable::class)
+            ->assertSet('selectAll', false)
+            ->assertSet('selection', [])
+            ->set('selectAll', true)
+            ->set('selection', array_map('strval', $books1->pluck('id')->toArray()))
+            ->set('search.title', 'the')
+            ->assertSet('selectAll', false)
+            ->assertSet('selection', []);
+    }
 }
