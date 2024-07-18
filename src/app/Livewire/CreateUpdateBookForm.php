@@ -51,7 +51,7 @@ class CreateUpdateBookForm extends Component
 
     /**
      * Method called upon cancellation of the create-update-book form.
-     * Dispatch a livewire event to the main BookTable component for user feedback.
+     * Dispatch a livewire event to the parent BookTable component for user feedback.
      */
     public function cancel(): void
     {

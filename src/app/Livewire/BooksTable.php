@@ -40,7 +40,7 @@ class BooksTable extends Component
 
     public string $action = '';
 
-    private array $possibleActions = ['create', 'edit', 'delete', 'export_all'];
+    private array $possibleActions = ['create', 'edit', 'delete', 'export_all', 'delete_bulk'];
 
     public array $selection = [];
 
@@ -152,13 +152,26 @@ class BooksTable extends Component
     }
 
     /**
-     * Listen to cancelAction event dispatched all form cancel button (create, update, export and delete).
+     * Listen to cancelAction event dispatched from all form cancel button (create, update, export and delete).
      * Clean the UI.
      */
     #[On('cancelAction')]
     public function onCancelAction(): void
     {
         $this->reset('action');
+    }
+
+    /**
+     * Listen to askSelectionFromParent event dispatched from bulk action (export and delete).
+     * @param  string  $action  defines the action the user is about to make
+     */
+    #[On('requestSelectionFromParent')]
+    public function onRequestSelectionFromParent(string $action): void
+    {
+        $selectedOnPage = $this->selectAll ? ['all'] : array_intersect($this->selection, $this->bookIds);
+        if ($action === 'delete_bulk') {
+            $this->dispatch('deleteSelectionFromParent', selectedOnPage: $selectedOnPage);
+        }
     }
 
     /**

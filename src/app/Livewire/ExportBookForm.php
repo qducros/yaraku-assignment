@@ -32,7 +32,7 @@ class ExportBookForm extends Component
 
     /**
      * Method called upon submission of the export-book form.
-     * Call the ExportController related method to export the data and dispatch a livewire event to the main BookTable component
+     * Call the ExportController related method to export the data and dispatch a livewire event to the parent BookTable component
      * for user feedback.
      */
     public function export(): StreamedResponse
@@ -56,7 +56,7 @@ class ExportBookForm extends Component
 
     /**
      * Method called upon cancellation of the export-book form.
-     * Dispatch a livewire event to the main BookTable component for user feedback.
+     * Dispatch a livewire event to the parent BookTable component for user feedback.
      */
     public function cancel(): void
     {

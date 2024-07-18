@@ -21,7 +21,11 @@
     </div>
 
     <div class="is-flex is-justify-content-space-between mb-5">
-        <div>
+        <div class="select">
+            <select name="" id="" wire:model.live="action">
+                <option value="">Bulk action...</option>
+                <option value="delete_bulk">Delete selection</option>
+            </select>
         </div>
 
         <div>
@@ -39,6 +43,10 @@
             @case('create')
                 <livewire:create-update-book-form :action="$action"/>
                 @break
+            
+            @case('delete_bulk')
+                <livewire:delete-book-form :action="$action" />
+                @break
 
             @case('export_all')
                 <livewire:export-book-form :action="$action" />
@@ -54,7 +62,6 @@
             <tr>
                 @if(count($books) > 0)
                     <th>
-                    
                         <input id="page-checkbox-{{ $books->currentPage() }}" type="checkbox" @click="$dispatch('page_checkbox_clicked')"
                         :checked="books_ids.every(r => selection.includes(r))">
                     </th>
