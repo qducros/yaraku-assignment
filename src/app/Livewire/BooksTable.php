@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Book;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,6 +18,9 @@ use Livewire\WithPagination;
  * @property array $perPage defines number of elements per page for pagination
  * @property string $action defines the action the user is about to make
  * @property array $possibleActions defines the authorized actions
+ * @property array $selection defines the ids of all selected books
+ * @property array $bookIds defines the ids of all current page's books
+ * @property bool $selectAll defines if current selection must be all filtered elements
  * @property array $queryString defines query string elements with exception values
  */
 class BooksTable extends Component
@@ -37,6 +41,12 @@ class BooksTable extends Component
     public string $action = '';
 
     private array $possibleActions = ['create', 'edit', 'delete', 'export_all'];
+
+    public array $selection = [];
+
+    public array $bookIds = [];
+
+    public bool $selectAll = false;
 
     protected array $queryString = [
         'orderField' => ['except' => '', 'as' => 'sort_field'],
@@ -65,7 +75,18 @@ class BooksTable extends Component
     }
 
     /**
-     * On page change, we reset action in case it's an action on a specific row.
+     * On search change, we reset the selection related properties (selection and selectAll).
+     */
+    public function updatingSearch(): void
+    {
+        $this->reset('selection');
+        $this->reset('selectAll');
+    }
+
+    /**
+     * On page change, we reset action in case it's an action on a specific row (edit-id or delete-id).
+     * If the selectAll option is selected, reset the selection.
+     * Reset selectAll.
      */
     public function updatedPage(): void
     {
@@ -74,6 +95,9 @@ class BooksTable extends Component
         if (count($actionExploded) === 2) {
             $this->reset('action');
         }
+
+        if ($this->selectAll) $this->reset('selection');
+        $this->reset('selectAll');
     }
 
     /**
@@ -140,15 +164,20 @@ class BooksTable extends Component
     /**
      * Get the view / contents that represent the component.
      * Pass filtered / sorted / paginated books to the view.
+     * Set bookIds used for row selection.
      */
     public function render(): View
     {
+        $books = Book::where(
+            [['title', 'LIKE', "%{$this->search['title']}%"],
+                ['author', 'LIKE', "%{$this->search['author']}%"]])
+            ->orderBy($this->orderField, $this->orderDirection)
+            ->paginate($this->perPage);
+
+        $this->bookIds = array_map('strval', $books->pluck('id')->toArray());
+
         return view('livewire.books-table', [
-            'books' => Book::where(
-                [['title', 'LIKE', "%{$this->search['title']}%"],
-                    ['author', 'LIKE', "%{$this->search['author']}%"]])
-                ->orderBy($this->orderField, $this->orderDirection)
-                ->paginate($this->perPage),
+            'books' => $books,
         ]);
     }
 }

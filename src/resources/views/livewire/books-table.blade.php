@@ -1,4 +1,4 @@
-<div>
+<div x-data="{ selection: $wire.entangle('selection'), books_ids: $wire.entangle('bookIds'), select_all: $wire.entangle('selectAll') }">
     <div class="mb-5 field-body">
         <div class="field">
             <label for="title" class="label">Search by Title</label>
@@ -52,6 +52,13 @@
     <table class="table is-fullwidth">
         <thead class="has-background-info">
             <tr>
+                @if(count($books) > 0)
+                    <th>
+                    
+                        <input id="page-checkbox-{{ $books->currentPage() }}" type="checkbox" @click="$dispatch('page_checkbox_clicked')"
+                        :checked="books_ids.every(r => selection.includes(r))">
+                    </th>
+                @endif
                 <x-table-header :direction="$orderDirection" name="title" :field="$orderField">Title</x-table-header>
                 <x-table-header :direction="$orderDirection" name="author" :field="$orderField">Author</x-table-header>
                 <x-table-header :direction="$orderDirection" name="updated_at" :field="$orderField">Last modified</x-table-header>
@@ -59,9 +66,29 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($books) > 0)
+                <tr>
+                    <template x-if="select_all">
+                        <td colspan="5" class="has-background-light has-text-centered">
+                            <span>All <strong>{{ $books->total() }}</strong> are books selected.
+                            <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">Deselect all <strong>{{ $books->total() }}</strong></a></span>
+                        </td>
+                    </template>
+                    <template x-if="!select_all && books_ids.every(r => selection.includes(r))">
+                        <td colspan="5" class="has-background-light has-text-centered">
+                            <span>The <strong>{{ count($books) }}</strong> book(s) on this page are selected.
+                            <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">Select all <strong>{{ $books->total() }}</strong></a></span>
+                        </td>
+                    </template>
+                </tr>
+            @endif
             @forelse($books as $book)
                 <div wire:key="{{ $book->id }}">
                     <tr>
+                        <td>
+                            <input id="checkbox-{{ $book->id }}" type="checkbox" wire:model="selection" value="{{ $book->id }}"
+                            @page_checkbox_clicked.window="(e) => e.target.checked !== $el.checked && $el.click()">
+                        </td>
                         <td>
                             <span class="has-text-black has-text-weight-bold">
                                 {{ $book->title }}
@@ -81,14 +108,14 @@
                     @switch($action)
                         @case('edit-'.$book->id)
                             <tr>
-                                <td colspan="4" class="has-background-light">
+                                <td colspan="5" class="has-background-light">
                                     <livewire:create-update-book-form :action="$action" :book="$book" :key="'edit'.$book->id" />
                                 </td>
                             </tr>
                             @break
                         @case('delete-'.$book->id)
                             <tr>
-                                <td colspan="4" class="has-background-light">
+                                <td colspan="5" class="has-background-light">
                                     <livewire:delete-book-form :action="$action" :bookId="$book->id" :key="'delete'.$book->id" />
                                 </td>
                             </tr>
@@ -100,7 +127,7 @@
                 </div>
             @empty
                 <tr>
-                    <td colspan="4" class="has-background-light">
+                    <td colspan="5" class="has-background-light">
                         No books found.
                     </td>
                 </tr>
