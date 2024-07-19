@@ -156,7 +156,7 @@ class DeleteBookFormTest extends TestCase
             ->call('onCompleteAction', action: 'delete_bulk')
             ->assertSet('action', '')
             ->assertDontSeeHtml('Tolkien');
-        
+
         $this->assertDatabaseCount('books', 0);
     }
 
@@ -191,7 +191,7 @@ class DeleteBookFormTest extends TestCase
             ->assertSet('action', '')
             ->assertDontSeeHtml('Tolkien')
             ->assertDontSeeHtml('Victor Hugo');
-        
+
         $this->assertDatabaseCount('books', 0);
     }
 
@@ -222,7 +222,7 @@ class DeleteBookFormTest extends TestCase
             ->call('onCompleteAction', action: 'delete_bulk')
             ->assertSet('action', '')
             ->assertSeeHtml('Tolkien');
-        
+
         $this->assertDatabaseCount('books', 5);
     }
 
@@ -246,7 +246,7 @@ class DeleteBookFormTest extends TestCase
             ->call('onCancelAction')
             ->assertSet('action', '')
             ->assertSee('Tolkien');
-        
+
         $this->assertDatabaseCount('books', 1);
     }
 
@@ -262,7 +262,7 @@ class DeleteBookFormTest extends TestCase
             ->call('setAction', 'create')
             ->assertSet('action', 'create')
             ->assertSee('Tolkien');
-        
+
         Livewire::test(BooksTable::class)
             ->call('setAction', 'delete_bulk')
             ->assertSet('action', 'delete_bulk')

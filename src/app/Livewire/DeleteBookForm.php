@@ -28,7 +28,7 @@ class DeleteBookForm extends Component
 
     /**
      * Method called upon submission of the delete-book form.
-     * If action is a single delete, delete the book and dispatch a 
+     * If action is a single delete, delete the book and dispatch a
      * livewire event to the parent BookTable component for user feedback.
      * If action is a bulk delete, dispatch an event to the parent BookTable
      * component to get the list of ids to delete.
@@ -50,7 +50,7 @@ class DeleteBookForm extends Component
      * Listen to deleteSelectionFromParent event dispatched from parent component.
      * Called when bulk deleting in $this->delete() to get information on the elements to delete.
      * Dispatch a livewire event to the parent BookTable component for user feedback.
-     * 
+     *
      * @param  array  $selectedOnPage  defines the elements to delete (['all'] for all, [] for nothing or ['1', '2'] list of ids)
      */
     #[On('deleteSelectionFromParent')]

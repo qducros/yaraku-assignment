@@ -15,11 +15,12 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class ExportController extends Controller
 {
     private array $fields;
+
     private array $selection;
 
     /**
      * @param  array  $fields  defines fields to display inside the downloaded file
-     * @param array $selection defines the selected data to display inside the downloaded file
+     * @param  array  $selection  defines the selected data to display inside the downloaded file
      */
     public function __construct(array $fields, array $selection)
     {

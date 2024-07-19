@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\Book;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -96,7 +95,9 @@ class BooksTable extends Component
             $this->reset('action');
         }
 
-        if ($this->selectAll) $this->reset('selection');
+        if ($this->selectAll) {
+            $this->reset('selection');
+        }
         $this->reset('selectAll');
     }
 
@@ -163,6 +164,7 @@ class BooksTable extends Component
 
     /**
      * Listen to askSelectionFromParent event dispatched from bulk action (export and delete).
+     *
      * @param  string  $action  defines the action the user is about to make
      */
     #[On('requestSelectionFromParent')]

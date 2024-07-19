@@ -56,8 +56,8 @@ class ExportBookForm extends Component
     /**
      * Listen to exportSelectionFromParent event dispatched from parent BookTable component.
      * If selectedOnPage length equals 0, no data were selected. Does nothing.
-     * Else dispatch a livewire event to the parent BookTable component for user feedback and download the file. 
-     * 
+     * Else dispatch a livewire event to the parent BookTable component for user feedback and download the file.
+     *
      * @param  array  $selectedOnPage  defines the elements to export (['all'] for all, [] for nothing or ['1', '2'] list of ids)
      */
     #[On('exportSelectionFromParent')]
@@ -65,7 +65,7 @@ class ExportBookForm extends Component
     {
         if (count($selectedOnPage) > 0) {
             $download = $this->download($selectedOnPage);
-            
+
             $this->dispatch('completeAction', action: $this->action);
 
             return $download;
