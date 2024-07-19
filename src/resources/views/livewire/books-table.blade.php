@@ -109,8 +109,8 @@
                         <td>
                             {{ $book->author }}
                         </td>
-                        <td>
-                            {{ $book->updated_at }}
+                        <td title="{{ $book->updated_at->diffForHumans() }}">
+                            {{ $book->updated_at->setTimezone('Asia/Tokyo') }}
                         </td>
                         <td>
                             <button class="button is-info is-light" wire:click="setAction('{{ 'edit-'.$book->id }}')">Edit</button>
