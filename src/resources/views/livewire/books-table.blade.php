@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <div class="is-flex is-justify-content-space-between mb-5">
+    <div class="is-flex is-justify-content-space-between mb-5 buttons">
         <div class="select">
             <select name="" id="" wire:model.live="action">
                 <option value="">{{ __('messages.action.bulk.placeholder') }}</option>
@@ -61,15 +61,15 @@
                 @break
             
             @case('delete_bulk')
-                <livewire:delete-book-form :action="$action" />
+                <livewire:delete-book-form :action="$action"/>
                 @break
 
             @case('export_all')
-                <livewire:export-book-form :action="$action" />
+                <livewire:export-book-form :action="$action"/>
                 @break
             
             @case('export_bulk')
-                <livewire:export-book-form :action="$action" />
+                <livewire:export-book-form :action="$action"/>
                 @break
 
             @default
@@ -77,90 +77,94 @@
         @endswitch
     </div>
 
-    <table class="table is-fullwidth">
-        <thead class="has-background-info">
-            <tr>
-                @if(count($books) > 0)
-                    <th>
-                        <input id="page-checkbox-{{ $books->currentPage() }}" type="checkbox" @click="$dispatch('page_checkbox_clicked')"
-                        :checked="books_ids.every(r => selection.includes(r))">
-                    </th>
-                @endif
-                <x-table-header :direction="$orderDirection" name="title" :field="$orderField">{{ __('messages.table.header.title') }}</x-table-header>
-                <x-table-header :direction="$orderDirection" name="author" :field="$orderField">{{ __('messages.table.header.author') }}</x-table-header>
-                <x-table-header :direction="$orderDirection" name="updated_at" :field="$orderField">{{ __('messages.table.header.last_modified') }}</x-table-header>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if(count($books) > 0)
+    <div class="table-container">
+        <table class="table is-fullwidth">
+            <thead class="has-background-link">
                 <tr>
-                    <template x-if="select_all">
-                        <td colspan="5" class="has-background-light has-text-centered">
-                            <span>{{ __('messages.table.selection.all') }}
-                            <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">{{ __('messages.table.selection.deselect') }}{{' '}}<strong>{{ $books->total() }}</strong></a></span>
-                        </td>
-                    </template>
-                    <template x-if="!select_all && books_ids.every(r => selection.includes(r))">
-                        <td colspan="5" class="has-background-light has-text-centered">
-                            <span><strong>{{ count($books) }}</strong>{{' '}}{{ __('messages.table.selection.page') }}
-                            <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">{{ __('messages.table.selection.select') }}{{' '}}<strong>{{ $books->total() }}</strong></a></span>
-                        </td>
-                    </template>
+                    @if(count($books) > 0)
+                        <th>
+                            <input id="page-checkbox-{{ $books->currentPage() }}" type="checkbox" @click="$dispatch('page_checkbox_clicked')"
+                            :checked="books_ids.every(r => selection.includes(r))">
+                        </th>
+                    @endif
+                    <x-table-header :direction="$orderDirection" name="title" :field="$orderField">{{ __('messages.table.header.title') }}</x-table-header>
+                    <x-table-header :direction="$orderDirection" name="author" :field="$orderField">{{ __('messages.table.header.author') }}</x-table-header>
+                    <x-table-header :direction="$orderDirection" name="updated_at" :field="$orderField">{{ __('messages.table.header.last_modified') }}</x-table-header>
+                    <th></th>
                 </tr>
-            @endif
-            @forelse($books as $book)
-                <div wire:key="{{ $book->id }}">
+            </thead>
+            <tbody>
+                @if(count($books) > 0)
                     <tr>
-                        <td>
-                            <input id="checkbox-{{ $book->id }}" type="checkbox" wire:model="selection" value="{{ $book->id }}"
-                            @page_checkbox_clicked.window="(e) => e.target.checked !== $el.checked && $el.click()">
-                        </td>
-                        <td>
-                            <span class="has-text-black has-text-weight-bold">
-                                {{ $book->title }}
-                            </span>
-                        </td>
-                        <td>
-                            {{ $book->author }}
-                        </td>
-                        <td title="{{ $book->updated_at->diffForHumans() }}">
-                            {{ $book->updated_at->setTimezone('Asia/Tokyo') }}
-                        </td>
-                        <td>
-                            <button class="button is-info is-light" wire:click="setAction('{{ 'edit-'.$book->id }}')">{{ __('messages.action.edit.button') }}</button>
-                            <button class="button is-danger is-light" wire:click="setAction('{{ 'delete-'.$book->id }}')">{{ __('messages.action.delete.button') }}</button>
+                        <template x-if="select_all">
+                            <td colspan="5" class="has-background-light has-text-centered">
+                                <span>{{ __('messages.table.selection.all') }}
+                                <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">{{ __('messages.table.selection.deselect') }}{{' '}}<strong>{{ $books->total() }}</strong></a></span>
+                            </td>
+                        </template>
+                        <template x-if="!select_all && books_ids.every(r => selection.includes(r))">
+                            <td colspan="5" class="has-background-light has-text-centered">
+                                <span><strong>{{ count($books) }}</strong>{{' '}}{{ __('messages.table.selection.page') }}
+                                <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">{{ __('messages.table.selection.select') }}{{' '}}<strong>{{ $books->total() }}</strong></a></span>
+                            </td>
+                        </template>
+                    </tr>
+                @endif
+                @forelse($books as $book)
+                    <div wire:key="{{ $book->id }}">
+                        <tr>
+                            <td>
+                                <input id="checkbox-{{ $book->id }}" type="checkbox" wire:model="selection" value="{{ $book->id }}"
+                                @page_checkbox_clicked.window="(e) => e.target.checked !== $el.checked && $el.click()">
+                            </td>
+                            <td>
+                                <span class="has-text-black has-text-weight-bold">
+                                    {{ $book->title }}
+                                </span>
+                            </td>
+                            <td>
+                                {{ $book->author }}
+                            </td>
+                            <td title="{{ $book->updated_at->diffForHumans() }}">
+                                {{ $book->updated_at->setTimezone('Asia/Tokyo') }}
+                            </td>
+                            <td>
+                                <div class="buttons">
+                                    <button class="button is-info is-light" wire:click="setAction('{{ 'edit-'.$book->id }}')">{{ __('messages.action.edit.button') }}</button>
+                                    <button class="button is-danger is-light" wire:click="setAction('{{ 'delete-'.$book->id }}')">{{ __('messages.action.delete.button') }}</button>
+                                </div>
+                            </td>
+                        </tr>
+                        @switch($action)
+                            @case('edit-'.$book->id)
+                                <tr>
+                                    <td colspan="5" class="has-background-light">
+                                        <livewire:create-update-book-form :action="$action" :book="$book" :key="'edit'.$book->id" />
+                                    </td>
+                                </tr>
+                                @break
+                            @case('delete-'.$book->id)
+                                <tr>
+                                    <td colspan="5" class="has-background-light">
+                                        <livewire:delete-book-form :action="$action" :bookId="$book->id" :key="'delete'.$book->id" />
+                                    </td>
+                                </tr>
+                                @break
+
+                            @default
+
+                        @endswitch
+                    </div>
+                @empty
+                    <tr>
+                        <td colspan="5" class="has-background-light">
+                            {{ __('messages.table.no_results') }}
                         </td>
                     </tr>
-                    @switch($action)
-                        @case('edit-'.$book->id)
-                            <tr>
-                                <td colspan="5" class="has-background-light">
-                                    <livewire:create-update-book-form :action="$action" :book="$book" :key="'edit'.$book->id" />
-                                </td>
-                            </tr>
-                            @break
-                        @case('delete-'.$book->id)
-                            <tr>
-                                <td colspan="5" class="has-background-light">
-                                    <livewire:delete-book-form :action="$action" :bookId="$book->id" :key="'delete'.$book->id" />
-                                </td>
-                            </tr>
-                            @break
-
-                        @default
-
-                    @endswitch
-                </div>
-            @empty
-                <tr>
-                    <td colspan="5" class="has-background-light">
-                        {{ __('messages.table.no_results') }}
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
     {{ $books->links() }}
 

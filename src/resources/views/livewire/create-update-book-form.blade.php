@@ -27,13 +27,15 @@
         <div class="field-body">
             <div class="field">
                 <div class="control">
-                    <button class="button is-primary" type="submit">
-                        @if($action === 'create')
+                    @if($action === 'create')
+                        <button class="button is-primary" type="submit">
                             {{ __('messages.action.create.button') }}
-                        @else
+                        </button>
+                    @else
+                        <button class="button is-info" type="submit">
                             {{ __('messages.action.edit.button') }}
-                        @endif
-                    </button>
+                        </button>
+                    @endif
                     <button class="button" type="button" wire:click="cancel">
                         {{ __('messages.action.cancel') }}
                     </button>

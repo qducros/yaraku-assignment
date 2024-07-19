@@ -16,9 +16,10 @@
     <body>
         <x-header />
 
-        <main class="container">
+        <main class="container px-3">
             {{ $slot }}
         </main>
 
+        <x-footer />
     </body>
 </html>
