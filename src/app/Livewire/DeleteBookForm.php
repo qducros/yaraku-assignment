@@ -38,7 +38,7 @@ class DeleteBookForm extends Component
         $actionExploded = explode('-', $this->action);
 
         if ($actionExploded[0] === 'delete') {
-            Book::destroy($this->action[1]);
+            Book::destroy($actionExploded[1]);
 
             $this->dispatch('completeAction', action: $this->action);
         } elseif ($actionExploded[0] === 'delete_bulk') {
