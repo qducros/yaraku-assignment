@@ -214,13 +214,8 @@ class DeleteBookFormTest extends TestCase
             ->assertDispatched('requestSelectionFromParent', action: 'delete_bulk');
         $booksTable->assertSet('action', 'delete_bulk')
             ->call('onRequestSelectionFromParent', action: 'delete_bulk')
-            ->assertDispatched('deleteSelectionFromParent', selectedOnPage: $selection);
-        $deleteBookForm->assertSet('action', 'delete_bulk')
-            ->call('onDeleteSelectionFromParent', selectedOnPage: $selection)
-            ->assertDispatched('completeAction', action: 'delete_bulk');
-        $booksTable->assertSet('action', 'delete_bulk')
-            ->call('onCompleteAction', action: 'delete_bulk')
-            ->assertSet('action', '')
+            ->assertNotDispatched('deleteSelectionFromParent', selectedOnPage: $selection)
+            ->assertSet('action', 'delete_bulk')
             ->assertSeeHtml('Tolkien');
 
         $this->assertDatabaseCount('books', 5);

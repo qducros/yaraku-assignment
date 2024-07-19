@@ -1,4 +1,19 @@
 <div x-data="{ selection: $wire.entangle('selection'), books_ids: $wire.entangle('bookIds'), select_all: $wire.entangle('selectAll') }">
+    @if(session('success'))
+        <article x-data="{show:true}" x-init="setTimeout(() => show = false, 3000)" x-show="show" class="message is-success">
+            <div class="message-body">
+                {{ session('success') }}
+            </div>
+        </article>
+    @endif
+    @if(session('warning'))
+        <article x-data="{show:true}" x-init="setTimeout(() => show = false, 3000)" x-show="show" class="message is-warning">
+            <div class="message-body">
+                {{ session('warning') }}
+            </div>
+        </article>
+    @endif
+
     <div class="mb-5 field-body">
         <div class="field">
             <label for="title" class="label">Search by Title</label>

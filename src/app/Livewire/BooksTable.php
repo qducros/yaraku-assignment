@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Book;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -138,7 +139,7 @@ class BooksTable extends Component
 
     /**
      * Listen to createUpdateBook event dispatched from CreateUpdateBookForm and DeleteBookForm classes.
-     * Clean the UI by resetting the action and add feedback to the user.
+     * Clean the UI by resetting the action and display feedback to the user.
      *
      * @param  string  $action  defines the action the user just completed
      */
@@ -149,6 +150,28 @@ class BooksTable extends Component
 
         if (in_array($actionExploded[0], $this->possibleActions)) {
             $this->reset('action');
+        }
+
+        switch ($actionExploded[0]) {
+            case 'create':
+                Session::flash('success', 'The book was created successfully.');
+                break;
+            case 'edit':
+                Session::flash('success', 'The book was edited successfully.');
+                break;
+            case 'delete':
+                Session::flash('success', 'The book was deleted successfully.');
+                break;
+            case 'export_all':
+                Session::flash('success', 'All books were successfully.');
+                break;
+            case 'delete_bulk':
+                Session::flash('success', 'All selected books were deleted successfully.');
+                break;
+            case 'export_bulk':
+                Session::flash('success', 'All selected books were exported successfully.');
+                break;
+            default:
         }
     }
 
@@ -164,14 +187,17 @@ class BooksTable extends Component
 
     /**
      * Listen to askSelectionFromParent event dispatched from bulk action (export and delete).
-     *
+     * If the selection is empty (meaning no book were selected), display feedback to the user.
+     * 
      * @param  string  $action  defines the action the user is about to make
      */
     #[On('requestSelectionFromParent')]
     public function onRequestSelectionFromParent(string $action): void
     {
         $selectedOnPage = $this->selectAll ? ['all'] : array_intersect($this->selection, $this->bookIds);
-        if ($action === 'delete_bulk') {
+        if (count($selectedOnPage) === 0) {
+            Session::flash('warning', 'You need at least one selected book to perform this action.');
+        } elseif ($action === 'delete_bulk') {
             $this->dispatch('deleteSelectionFromParent', selectedOnPage: $selectedOnPage);
         } elseif ($action === 'export_bulk') {
             $this->dispatch('exportSelectionFromParent', selectedOnPage: $selectedOnPage);
