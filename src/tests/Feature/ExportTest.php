@@ -16,7 +16,7 @@ class ExportTest extends TestCase
     {
         $book1 = Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         $book2 = Book::factory()->create(['title' => 'Lord of the Rings', 'author' => 'Tolkien']);
-        $exporter = new ExportController($fields = ['title', 'author']);
+        $exporter = new ExportController($fields = ['title', 'author'], $selection = []);
         $response = $this->toTestResponse($exporter->exportCsv());
 
         $response->assertStatus(200)
@@ -37,7 +37,7 @@ class ExportTest extends TestCase
     {
         $book1 = Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         $book2 = Book::factory()->create(['title' => 'Lord of the Rings', 'author' => 'Tolkien']);
-        $exporter = new ExportController($fields = ['title']);
+        $exporter = new ExportController($fields = ['title'], $selection = []);
         $response = $this->toTestResponse($exporter->exportCsv());
 
         $response->assertStatus(200)
@@ -60,7 +60,7 @@ class ExportTest extends TestCase
     {
         $book1 = Book::factory()->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         $book2 = Book::factory()->create(['title' => 'Lord of the Rings', 'author' => 'Tolkien']);
-        $exporter = new ExportController($fields = ['author']);
+        $exporter = new ExportController($fields = ['author'], $selection = []);
         $response = $this->toTestResponse($exporter->exportCsv());
 
         $response->assertStatus(200)
@@ -83,7 +83,7 @@ class ExportTest extends TestCase
     public function test_export_xml_with_title_and_author_fields()
     {
         $books = Book::factory(5)->create();
-        $exporter = new ExportController($fields = ['title', 'author']);
+        $exporter = new ExportController($fields = ['title', 'author'], $selection = []);
         $response = $this->toTestResponse($exporter->exportXml());
 
         $response->assertStatus(200)
@@ -108,7 +108,7 @@ class ExportTest extends TestCase
     public function test_export_xml_with_only_title_field()
     {
         $books = Book::factory(5)->create();
-        $exporter = new ExportController($fields = ['title']);
+        $exporter = new ExportController($fields = ['title'], $selection = []);
         $response = $this->toTestResponse($exporter->exportXml());
 
         $response->assertStatus(200)
@@ -133,7 +133,7 @@ class ExportTest extends TestCase
     public function test_export_xml_with_only_author_field()
     {
         $books = Book::factory(5)->create();
-        $exporter = new ExportController($fields = ['author']);
+        $exporter = new ExportController($fields = ['author'], $selection = []);
         $response = $this->toTestResponse($exporter->exportXml());
 
         $response->assertStatus(200)

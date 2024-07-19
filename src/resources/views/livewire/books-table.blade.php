@@ -25,6 +25,7 @@
             <select name="" id="" wire:model.live="action">
                 <option value="">Bulk action...</option>
                 <option value="delete_bulk">Delete selection</option>
+                <option value="export_bulk">Export selection</option>
             </select>
         </div>
 
@@ -49,6 +50,10 @@
                 @break
 
             @case('export_all')
+                <livewire:export-book-form :action="$action" />
+                @break
+            
+            @case('export_bulk')
                 <livewire:export-book-form :action="$action" />
                 @break
 

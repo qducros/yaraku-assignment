@@ -40,7 +40,7 @@ class BooksTable extends Component
 
     public string $action = '';
 
-    private array $possibleActions = ['create', 'edit', 'delete', 'export_all', 'delete_bulk'];
+    private array $possibleActions = ['create', 'edit', 'delete', 'export_all', 'delete_bulk', 'export_bulk'];
 
     public array $selection = [];
 
@@ -171,6 +171,8 @@ class BooksTable extends Component
         $selectedOnPage = $this->selectAll ? ['all'] : array_intersect($this->selection, $this->bookIds);
         if ($action === 'delete_bulk') {
             $this->dispatch('deleteSelectionFromParent', selectedOnPage: $selectedOnPage);
+        } elseif ($action === 'export_bulk') {
+            $this->dispatch('exportSelectionFromParent', selectedOnPage: $selectedOnPage);
         }
     }
 

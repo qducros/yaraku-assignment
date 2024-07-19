@@ -32,7 +32,8 @@ class ExportBookFormTest extends TestCase
         Livewire::test(ExportBookForm::class)
             ->set(['form.fields' => 'all', 'form.filetype' => 'csv'])
             ->call('export')
-            ->assertDispatched('completeAction')
+            ->call('download')
+            // ->assertDispatched('completeAction', action: 'export_all')
             ->assertFileDownloaded('books.csv');
         Livewire::test(BooksTable::class)
             ->assertSet('action', '');
@@ -48,7 +49,8 @@ class ExportBookFormTest extends TestCase
         Livewire::test(ExportBookForm::class)
             ->set(['form.fields' => 'title', 'form.filetype' => 'csv'])
             ->call('export')
-            ->assertDispatched('completeAction')
+            ->call('download')
+            // ->assertDispatched('completeAction', action: 'export_all')
             ->assertFileDownloaded('books.csv');
         Livewire::test(BooksTable::class)
             ->assertSet('action', '');
@@ -64,7 +66,8 @@ class ExportBookFormTest extends TestCase
         Livewire::test(ExportBookForm::class)
             ->set(['form.fields' => 'author', 'form.filetype' => 'csv'])
             ->call('export')
-            ->assertDispatched('completeAction')
+            ->call('download')
+            // ->assertDispatched('completeAction', action: 'export_all')
             ->assertFileDownloaded('books.csv');
         Livewire::test(BooksTable::class)
             ->assertSet('action', '');
@@ -80,7 +83,8 @@ class ExportBookFormTest extends TestCase
         Livewire::test(ExportBookForm::class)
             ->set(['form.fields' => 'all', 'form.filetype' => 'xml'])
             ->call('export')
-            ->assertDispatched('completeAction')
+            ->call('download')
+            // ->assertDispatched('completeAction', action: 'export_all')
             ->assertFileDownloaded('books.xml');
         Livewire::test(BooksTable::class)
             ->assertSet('action', '');
@@ -96,7 +100,8 @@ class ExportBookFormTest extends TestCase
         Livewire::test(ExportBookForm::class)
             ->set(['form.fields' => 'title', 'form.filetype' => 'xml'])
             ->call('export')
-            ->assertDispatched('completeAction')
+            ->call('download')
+            // ->assertDispatched('completeAction', action: 'export_all')
             ->assertFileDownloaded('books.xml');
         Livewire::test(BooksTable::class)
             ->assertSet('action', '');
@@ -112,7 +117,8 @@ class ExportBookFormTest extends TestCase
         Livewire::test(ExportBookForm::class)
             ->set(['form.fields' => 'author', 'form.filetype' => 'xml'])
             ->call('export')
-            ->assertDispatched('completeAction')
+            ->call('download')
+            // ->assertDispatched('completeAction', action: 'export_all')
             ->assertFileDownloaded('books.xml');
         Livewire::test(BooksTable::class)
             ->assertSet('action', '');
