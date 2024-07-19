@@ -16,18 +16,18 @@
 
     <div class="mb-5 field-body">
         <div class="field">
-            <label for="title" class="label">Search by Title</label>
+            <label for="title" class="label">{{ __('messages.search.title.label') }}</label>
             <p class="control has-icons-left has-icons-right">
-                <input type="text" class="input" placeholder="Search a book title" wire:model.live.debounce.500ms="search.title">
+                <input type="text" class="input" placeholder="{{ __('messages.search.title.placeholder') }}" wire:model.live.debounce.500ms="search.title">
                 <span class="icon is-small is-left">
                     <svg style="height:1em;" viewBox="0 0 12 13"><g stroke-width="2" stroke="#999999" fill="none"><path d="M11.29 11.71l-4-4"/><circle cx="5" cy="5" r="4"/></g></svg>
                 </span>
             </p>
         </div>
         <div class="field">
-            <label for="title" class="label">Search by Author</label>
+            <label for="title" class="label">{{ __('messages.search.author.label') }}</label>
             <p class="control has-icons-left has-icons-right">
-                <input type="text" class="input" placeholder="Search a book author" wire:model.live.debounce.500ms="search.author">
+                <input type="text" class="input" placeholder="{{ __('messages.search.author.placeholder') }}" wire:model.live.debounce.500ms="search.author">
                 <span class="icon is-small is-left">
                     <svg style="height:1em;" viewBox="0 0 12 13"><g stroke-width="2" stroke="#999999" fill="none"><path d="M11.29 11.71l-4-4"/><circle cx="5" cy="5" r="4"/></g></svg>
                 </span>
@@ -38,18 +38,18 @@
     <div class="is-flex is-justify-content-space-between mb-5">
         <div class="select">
             <select name="" id="" wire:model.live="action">
-                <option value="">Bulk action...</option>
-                <option value="delete_bulk">Delete selection</option>
-                <option value="export_bulk">Export selection</option>
+                <option value="">{{ __('messages.action.bulk.placeholder') }}</option>
+                <option value="delete_bulk">{{ __('messages.action.bulk.delete.select') }}</option>
+                <option value="export_bulk">{{ __('messages.action.bulk.export.select') }}</option>
             </select>
         </div>
 
         <div>
             <button class="button is-primary" wire:click="setAction('create')">
-                Create
+                {{ __('messages.action.create.button') }}
             </button>
             <button class="button is-warning" wire:click="setAction('export_all')">
-                Export all
+                {{ __('messages.action.export_all.button') }}
             </button>
         </div>
     </div>
@@ -86,9 +86,9 @@
                         :checked="books_ids.every(r => selection.includes(r))">
                     </th>
                 @endif
-                <x-table-header :direction="$orderDirection" name="title" :field="$orderField">Title</x-table-header>
-                <x-table-header :direction="$orderDirection" name="author" :field="$orderField">Author</x-table-header>
-                <x-table-header :direction="$orderDirection" name="updated_at" :field="$orderField">Last modified</x-table-header>
+                <x-table-header :direction="$orderDirection" name="title" :field="$orderField">{{ __('messages.table.header.title') }}</x-table-header>
+                <x-table-header :direction="$orderDirection" name="author" :field="$orderField">{{ __('messages.table.header.author') }}</x-table-header>
+                <x-table-header :direction="$orderDirection" name="updated_at" :field="$orderField">{{ __('messages.table.header.last_modified') }}</x-table-header>
                 <th></th>
             </tr>
         </thead>
@@ -97,14 +97,14 @@
                 <tr>
                     <template x-if="select_all">
                         <td colspan="5" class="has-background-light has-text-centered">
-                            <span>All <strong>{{ $books->total() }}</strong> are books selected.
-                            <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">Deselect all <strong>{{ $books->total() }}</strong></a></span>
+                            <span>{{ __('messages.table.selection.all') }}
+                            <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">{{ __('messages.table.selection.deselect') }}{{' '}}<strong>{{ $books->total() }}</strong></a></span>
                         </td>
                     </template>
                     <template x-if="!select_all && books_ids.every(r => selection.includes(r))">
                         <td colspan="5" class="has-background-light has-text-centered">
-                            <span>The <strong>{{ count($books) }}</strong> book(s) on this page are selected.
-                            <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">Select all <strong>{{ $books->total() }}</strong></a></span>
+                            <span><strong>{{ count($books) }}</strong>{{' '}}{{ __('messages.table.selection.page') }}
+                            <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">{{ __('messages.table.selection.select') }}{{' '}}<strong>{{ $books->total() }}</strong></a></span>
                         </td>
                     </template>
                 </tr>
@@ -128,8 +128,8 @@
                             {{ $book->updated_at->setTimezone('Asia/Tokyo') }}
                         </td>
                         <td>
-                            <button class="button is-info is-light" wire:click="setAction('{{ 'edit-'.$book->id }}')">Edit</button>
-                            <button class="button is-danger is-light" wire:click="setAction('{{ 'delete-'.$book->id }}')">Delete</button>
+                            <button class="button is-info is-light" wire:click="setAction('{{ 'edit-'.$book->id }}')">{{ __('messages.action.edit.button') }}</button>
+                            <button class="button is-danger is-light" wire:click="setAction('{{ 'delete-'.$book->id }}')">{{ __('messages.action.delete.button') }}</button>
                         </td>
                     </tr>
                     @switch($action)
@@ -155,7 +155,7 @@
             @empty
                 <tr>
                     <td colspan="5" class="has-background-light">
-                        No books found.
+                        {{ __('messages.table.no_results') }}
                     </td>
                 </tr>
             @endforelse
@@ -166,15 +166,15 @@
 
     <div class="is-flex is-justify-content-center is-align-items-center my-1">
         <span class="mr-2">
-            {{ ($books->currentPage() - 1) * $books->perPage() + 1 }} - {{ ($books->currentPage() - 1) * $books->perPage() + $books->count() }} out of {{ $books->total() }}
+            {{ ($books->currentPage() - 1) * $books->perPage() + 1 }} - {{ ($books->currentPage() - 1) * $books->perPage() + $books->count() }} / {{ $books->total() }}
         </span>
         @if($books->total() > 5)
             <div class="select is-small">
                 <select wire:model.live="perPage">
-                    <option value="5">5 per page</option>
-                    <option value="10">10 per page</option>
-                    <option value="25">25 per page</option>
-                    <option value="50">50 per page</option>
+                    <option value="5">5 {{ __('messages.table.pagination.per_page') }}</option>
+                    <option value="10">10 {{ __('messages.table.pagination.per_page') }}</option>
+                    <option value="25">25 {{ __('messages.table.pagination.per_page') }}</option>
+                    <option value="50">50 {{ __('messages.table.pagination.per_page') }}</option>
                 </select>
             </div>
         @endif

@@ -154,22 +154,22 @@ class BooksTable extends Component
 
         switch ($actionExploded[0]) {
             case 'create':
-                Session::flash('success', 'The book was created successfully.');
+                Session::flash('success', __('messages.feedback.success.create'));
                 break;
             case 'edit':
-                Session::flash('success', 'The book was edited successfully.');
+                Session::flash('success', __('messages.feedback.success.edit'));
                 break;
             case 'delete':
-                Session::flash('success', 'The book was deleted successfully.');
+                Session::flash('success', __('messages.feedback.success.delete'));
                 break;
             case 'export_all':
-                Session::flash('success', 'All books were successfully.');
+                Session::flash('success', __('messages.feedback.success.export_all'));
                 break;
             case 'delete_bulk':
-                Session::flash('success', 'All selected books were deleted successfully.');
+                Session::flash('success', __('messages.feedback.success.delete_bulk'));
                 break;
             case 'export_bulk':
-                Session::flash('success', 'All selected books were exported successfully.');
+                Session::flash('success', __('messages.feedback.success.export_bulk'));
                 break;
             default:
         }
@@ -196,7 +196,7 @@ class BooksTable extends Component
     {
         $selectedOnPage = $this->selectAll ? ['all'] : array_intersect($this->selection, $this->bookIds);
         if (count($selectedOnPage) === 0) {
-            Session::flash('warning', 'You need at least one selected book to perform this action.');
+            Session::flash('warning', __('messages.feedback.warning.no_selection'));
         } elseif ($action === 'delete_bulk') {
             $this->dispatch('deleteSelectionFromParent', selectedOnPage: $selectedOnPage);
         } elseif ($action === 'export_bulk') {

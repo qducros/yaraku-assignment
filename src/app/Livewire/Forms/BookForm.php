@@ -52,8 +52,21 @@ class BookForm extends Form
     public function rules(): array
     {
         return [
-            'title' => 'required|string|min:5',
-            'author' => 'required|string|min:5',
+            'title' => 'required|string|min:2',
+            'author' => 'required|string|min:2',
+        ];
+    }
+
+    /**
+     * Returns an array of custom validation error messages.
+     */
+    public function messages() 
+    {
+        return [
+            'title.required' => __('messages.action.create.title.error.required'),
+            'title.min' => __('messages.action.create.title.error.min'),
+            'author.required' => __('messages.action.create.author.error.required'),
+            'author.min' => __('messages.action.create.author.error.min'),
         ];
     }
 }

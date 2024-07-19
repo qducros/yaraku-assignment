@@ -2,9 +2,9 @@
     <div class="field">
         <div class="field-body">
             <div class="field">
-                <label for="title" class="label">Title</label>
+                <label for="title" class="label">{{ __('messages.action.create.title.label') }}</label>
                 <div class="control">
-                    <input type="text" wire:model="form.title" class="input" placeholder="Book title">
+                    <input type="text" wire:model="form.title" class="input" placeholder="{{ __('messages.action.create.title.placeholder') }}">
                 </div>
                 @error("form.title")
                     <span class="help is-danger">{{ $message }}</span>
@@ -12,9 +12,9 @@
             </div>
 
             <div class="field">
-                <label for="author" class="label">Author</label>
+                <label for="author" class="label">{{ __('messages.action.create.author.label') }}</label>
                 <div class="control">
-                    <input type="text" wire:model="form.author" class="input" placeholder="Book author">
+                    <input type="text" wire:model="form.author" class="input" placeholder="{{ __('messages.action.create.author.placeholder') }}">
                 </div>
                 @error("form.author")
                     <span class="help is-danger">{{ $message }}</span>
@@ -29,13 +29,13 @@
                 <div class="control">
                     <button class="button is-primary" type="submit">
                         @if($action === 'create')
-                            Create
+                            {{ __('messages.action.create.button') }}
                         @else
-                            Edit
+                            {{ __('messages.action.edit.button') }}
                         @endif
                     </button>
                     <button class="button" type="button" wire:click="cancel">
-                        Cancel
+                        {{ __('messages.action.cancel') }}
                     </button>
                 </div>
             </div>

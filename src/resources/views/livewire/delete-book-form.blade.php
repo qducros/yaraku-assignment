@@ -1,9 +1,9 @@
 <form action="" wire:submit.prevent="delete" class="p-3 {{ $action === 'delete_bulk' ? 'mb-5' : '' }}">
     <div class="field">
         @if($action === 'delete_bulk')
-            <h5>Are you sure you want to delete the selected books? You won't be able to go back.</h5>
+            <h5>{{ __('messages.action.bulk.delete.info') }}</h5>
         @else
-            <h5>Are you sure you want to delete this book? You won't be able to go back.</h5>
+            <h5>{{ __('messages.action.delete.info') }}</h5>
         @endif
     </div>
 
@@ -12,10 +12,10 @@
             <div class="field">
                 <div class="control">
                     <button class="button is-danger" type="submit">
-                        Yes, delete
+                        {{ __('messages.action.delete.button_confirm') }}
                     </button>
                     <button class="button" type="button" wire:click="cancel">
-                        Cancel
+                        {{ __('messages.action.cancel') }}
                     </button>
                 </div>
             </div>
