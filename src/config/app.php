@@ -84,6 +84,25 @@ return [
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
+    'supported_locales' => [
+        'en' => [
+            'name' => 'English',
+            'icon' => '&#127482;&#127480;'
+        ],
+        'jp' => [
+            'name' => 'Japanese',
+            'icon' => '&#127471;&#127477;'
+        ],
+        'fr' => [
+            'name' => 'French',
+            'icon' => '&#127467;&#127479;'
+        ],
+        'es' => [
+            'name' => 'Spanish',
+            'icon' => '&#127466;&#127480;'
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key

@@ -14,6 +14,11 @@
         <title>{{ $title ?? 'Yaraku assignment' }}</title>
     </head>
     <body>
-        {{ $slot }}
+        <x-header />
+
+        <main class="container">
+            {{ $slot }}
+        </main>
+
     </body>
 </html>
