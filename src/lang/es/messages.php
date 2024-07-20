@@ -108,4 +108,10 @@ return [
             'no_selection' => 'Necesita al menos un libro seleccionado para realizar esta acción.',
         ],
     ],
+    'locale' => [
+        'english' => 'Inglés',
+        'japanese' => 'Japonés',
+        'french' => 'Francés',
+        'spanish' => 'Español',
+    ],
 ];

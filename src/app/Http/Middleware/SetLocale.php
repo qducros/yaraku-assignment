@@ -10,6 +10,7 @@ class SetLocale
 {
     /**
      * Handle an incoming request.
+     * Set the locale if supported locale.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
