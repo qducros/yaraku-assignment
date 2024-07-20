@@ -41,7 +41,7 @@ class ExportBookForm extends Component
         $this->validate();
 
         if ($this->action === 'export_all') {
-            $download = $this->download();
+            $download = $this->download(['all']);
 
             $this->dispatch('completeAction', action: $this->action);
 
@@ -73,7 +73,7 @@ class ExportBookForm extends Component
      * Method called upon export.
      * Call the ExportController related method to return the streamed response with exported data.
      */
-    public function download(?array $selectedOnPage = []): StreamedResponse
+    public function download(array $selectedOnPage = []): StreamedResponse
     {
         $exportFields = $this->form->fields === 'all' ?
             ['title', 'author'] : [$this->form->fields];

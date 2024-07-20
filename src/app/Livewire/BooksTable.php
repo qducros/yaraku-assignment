@@ -87,6 +87,8 @@ class BooksTable extends Component
     {
         $this->reset('selection');
         $this->reset('selectAll');
+        $this->reset('orderDirection');
+        $this->reset('orderField');
         $this->resetPage();
     }
 
@@ -102,10 +104,7 @@ class BooksTable extends Component
         if (count($actionExploded) === 2) {
             $this->reset('action');
         }
-
-        if ($this->selectAll) {
-            $this->reset('selection');
-        }
+        $this->reset('selection');
         $this->reset('selectAll');
     }
 
@@ -124,6 +123,8 @@ class BooksTable extends Component
             $this->orderField = $name;
             $this->reset('orderDirection');
         }
+        $this->reset('selection');
+        $this->reset('selectAll');
     }
 
     /**
@@ -195,14 +196,17 @@ class BooksTable extends Component
     /**
      * Listen to askSelectionFromParent event dispatched from bulk action (export and delete).
      * If the selection is empty (meaning no book were selected), display feedback to the user.
-     * 
+     * $selectedOnPage possible values:
+     * - ['ids' => []]: no selection, warning feedback to user
+     * - ['ids' => ['1', '2']]: individual books/page selection using array of ids. dispatch event to bulk
+     * - ['title' => '', 'author' => '']: all selection using the search params, dispatch event to bulk
      * @param  string  $action  defines the action the user is about to make
      */
     #[On('requestSelectionFromParent')]
     public function onRequestSelectionFromParent(string $action): void
     {
-        $selectedOnPage = $this->selectAll ? ['all'] : array_intersect($this->selection, $this->bookIds);
-        if (count($selectedOnPage) === 0) {
+        $selectedOnPage = $this->selectAll ? $this->search : ['ids' => array_intersect($this->selection, $this->bookIds)];
+        if (array_key_exists('ids', $this->selection) && empty($this->selection['ids'])) {
             Session::flash('warning', __('messages.feedback.warning.no_selection'));
         } elseif ($action === 'delete_bulk') {
             $this->dispatch('deleteSelectionFromParent', selectedOnPage: $selectedOnPage);

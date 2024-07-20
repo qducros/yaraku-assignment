@@ -173,19 +173,21 @@
 
     {{ $books->links() }}
 
-    <div class="is-flex is-justify-content-center is-align-items-center my-1">
-        <span class="mr-2">
-            {{ ($books->currentPage() - 1) * $books->perPage() + 1 }} - {{ ($books->currentPage() - 1) * $books->perPage() + $books->count() }} / {{ $books->total() }}
-        </span>
-        @if($books->total() > 5)
-            <div class="select is-small">
-                <select wire:model.live="perPage">
-                    <option value="5">5 {{ __('messages.table.pagination.per_page') }}</option>
-                    <option value="10">10 {{ __('messages.table.pagination.per_page') }}</option>
-                    <option value="25">25 {{ __('messages.table.pagination.per_page') }}</option>
-                    <option value="50">50 {{ __('messages.table.pagination.per_page') }}</option>
-                </select>
-            </div>
-        @endif
-    </div>
+    @if($books->total() > 0)
+        <div class="is-flex is-justify-content-center is-align-items-center my-1">
+            <span class="mr-2">
+                {{ ($books->currentPage() - 1) * $books->perPage() + 1 }} - {{ ($books->currentPage() - 1) * $books->perPage() + $books->count() }} / {{ $books->total() }}
+            </span>
+            @if($books->total() > 5)
+                <div class="select is-small">
+                    <select wire:model.live="perPage">
+                        <option value="5">5 {{ __('messages.table.pagination.per_page') }}</option>
+                        <option value="10">10 {{ __('messages.table.pagination.per_page') }}</option>
+                        <option value="25">25 {{ __('messages.table.pagination.per_page') }}</option>
+                        <option value="50">50 {{ __('messages.table.pagination.per_page') }}</option>
+                    </select>
+                </div>
+            @endif
+        </div>
+    @endif
 </div>

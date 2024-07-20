@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use DOMDocument;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -34,16 +35,7 @@ class ExportController extends Controller
      */
     public function exportCsv(): StreamedResponse
     {
-        switch ($this->selection) {
-            case ['all']:
-                $books = Book::select($this->fields)->get()->toArray();
-                break;
-            case []:
-                $books = Book::select($this->fields)->get()->toArray();
-                break;
-            default:
-                $books = Book::select($this->fields)->whereIn('id', $this->selection)->get()->toArray();
-        }
+        $books = $this->queryBulkBooks()->get()->toArray();
         $columns = array_map('ucfirst', $this->fields);
         $fileName = 'books';
         $headers = [
@@ -70,16 +62,7 @@ class ExportController extends Controller
      */
     public function exportXml(): StreamedResponse
     {
-        switch ($this->selection) {
-            case ['all']:
-                $books = Book::select($this->fields)->get()->toArray();
-                break;
-            case []:
-                $books = Book::select($this->fields)->get()->toArray();
-                break;
-            default:
-                $books = Book::select($this->fields)->whereIn('id', $this->selection)->get()->toArray();
-        }
+        $books = $this->queryBulkBooks()->get()->toArray();
         $fileName = 'books';
         $headers = [
             'Content-type' => 'text/xml',
@@ -108,5 +91,26 @@ class ExportController extends Controller
         return response()->stream(function () use ($xmlContent) {
             echo $xmlContent;
         }, 200, $headers);
+    }
+
+    /**
+     * Return the book query corresponding to the selection.
+     * $this->selection possible values:
+     * - ['ids' => ['1', '2']]: individual books/page selection using array of ids
+     * - ['title' => '', 'author' => '']: all selection using the search params   
+     */
+    private function queryBulkBooks(): Builder
+    {
+        $query = Book::query()->select($this->fields);
+        if (array_key_exists('title', $this->selection) && !empty($this->selection['title'])) {
+            $query->where('title', 'LIKE', "%{$this->selection['title']}%");
+        }
+        if (array_key_exists('author', $this->selection) && !empty($this->selection['author'])) {
+            $query->where('author', 'LIKE', "%{$this->selection['author']}%");
+        }
+        if (array_key_exists('ids', $this->selection) && !empty($this->selection['ids'])) {
+            $query->whereIn('id', $this->selection['ids']);
+        }
+        return $query;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Book;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -51,16 +52,12 @@ class DeleteBookForm extends Component
      * Called when bulk deleting in $this->delete() to get information on the elements to delete.
      * Dispatch a livewire event to the parent BookTable component for user feedback.
      *
-     * @param  array  $selectedOnPage  defines the elements to delete (['all'] for all, [] for nothing or ['1', '2'] list of ids)
+     * @param  array  $selectedOnPage  defines the elements to delete
      */
     #[On('deleteSelectionFromParent')]
     public function onDeleteSelectionFromParent(array $selectedOnPage): void
     {
-        if ($selectedOnPage === ['all']) {
-            Book::truncate();
-        } elseif (count($selectedOnPage) > 0) {
-            Book::destroy($selectedOnPage);
-        }
+        $this->queryBulkBooks($selectedOnPage)->delete();
 
         $this->dispatch('completeAction', action: $this->action);
     }
@@ -72,6 +69,29 @@ class DeleteBookForm extends Component
     public function cancel(): void
     {
         $this->dispatch('cancelAction');
+    }
+
+    /**
+     * Return the book query corresponding to the selection.
+     * $selectedOnPage possible values:
+     * - ['ids' => ['1', '2']]: individual books/page selection using array of ids
+     * - ['title' => '', 'author' => '']: all selection using the search params
+     * 
+     * @param  array  $selectedOnPage  defines the elements to delete
+     */
+    private function queryBulkBooks(array $selectedOnPage): Builder
+    {
+        $query = Book::query();
+        if (array_key_exists('title', $selectedOnPage) && !empty($selectedOnPage['title'])) {
+            $query->where('title', 'LIKE', "%{$selectedOnPage['title']}%");
+        }
+        if (array_key_exists('author', $selectedOnPage) && !empty($selectedOnPage['author'])) {
+            $query->where('author', 'LIKE', "%{$selectedOnPage['author']}%");
+        }
+        if (array_key_exists('ids', $selectedOnPage) && !empty($selectedOnPage['ids'])) {
+            $query->whereIn('id', $selectedOnPage['ids']);
+        }
+        return $query;
     }
 
     /**
