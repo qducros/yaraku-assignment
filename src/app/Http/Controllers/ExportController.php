@@ -97,20 +97,21 @@ class ExportController extends Controller
      * Return the book query corresponding to the selection.
      * $this->selection possible values:
      * - ['ids' => ['1', '2']]: individual books/page selection using array of ids
-     * - ['title' => '', 'author' => '']: all selection using the search params   
+     * - ['title' => '', 'author' => '']: all selection using the search params
      */
     private function queryBulkBooks(): Builder
     {
         $query = Book::query()->select($this->fields);
-        if (array_key_exists('title', $this->selection) && !empty($this->selection['title'])) {
+        if (array_key_exists('title', $this->selection) && ! empty($this->selection['title'])) {
             $query->where('title', 'LIKE', "%{$this->selection['title']}%");
         }
-        if (array_key_exists('author', $this->selection) && !empty($this->selection['author'])) {
+        if (array_key_exists('author', $this->selection) && ! empty($this->selection['author'])) {
             $query->where('author', 'LIKE', "%{$this->selection['author']}%");
         }
-        if (array_key_exists('ids', $this->selection) && !empty($this->selection['ids'])) {
+        if (array_key_exists('ids', $this->selection) && ! empty($this->selection['ids'])) {
             $query->whereIn('id', $this->selection['ids']);
         }
+
         return $query;
     }
 }

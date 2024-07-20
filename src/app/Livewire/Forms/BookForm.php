@@ -60,7 +60,7 @@ class BookForm extends Form
     /**
      * Returns an array of custom validation error messages.
      */
-    public function messages() 
+    public function messages()
     {
         return [
             'title.required' => __('messages.action.create.title.error.required'),

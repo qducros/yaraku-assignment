@@ -51,10 +51,10 @@ return [
                     'required' => 'The book author is required.',
                     'min' => 'The book author is too short.',
                 ],
-            ]
+            ],
         ],
         'edit' => [
-            'button' => 'Edit'
+            'button' => 'Edit',
         ],
         'delete' => [
             'button' => 'Delete',
@@ -88,7 +88,7 @@ return [
             'all' => 'All books from the search are selected.',
             'page' => 'book(s) on this page are selected.',
             'select' => 'Select all',
-            'deselect' => 'Deselect all'
+            'deselect' => 'Deselect all',
         ],
         'no_results' => 'No books found.',
         'pagination' => [

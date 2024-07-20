@@ -88,22 +88,22 @@ return [
         'en' => [
             'name' => 'English',
             'title' => 'messages.locale.english',
-            'icon' => '&#127482;&#127480;'
+            'icon' => '&#127482;&#127480;',
         ],
         'jp' => [
             'name' => 'Japanese',
             'title' => 'messages.locale.japanese',
-            'icon' => '&#127471;&#127477;'
+            'icon' => '&#127471;&#127477;',
         ],
         'fr' => [
             'name' => 'French',
             'title' => 'messages.locale.french',
-            'icon' => '&#127467;&#127479;'
+            'icon' => '&#127467;&#127479;',
         ],
         'es' => [
             'name' => 'Spanish',
             'title' => 'messages.locale.spanish',
-            'icon' => '&#127466;&#127480;'
+            'icon' => '&#127466;&#127480;',
         ],
     ],
 

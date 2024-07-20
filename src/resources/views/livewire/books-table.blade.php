@@ -22,6 +22,9 @@
                 <span class="icon is-small is-left">
                     <svg style="height:1em;" viewBox="0 0 12 13"><g stroke-width="2" stroke="#999999" fill="none"><path d="M11.29 11.71l-4-4"/><circle cx="5" cy="5" r="4"/></g></svg>
                 </span>
+                <span class="icon is-small is-right is-clickable" title="Clear"  wire:click="clearSearch('title')">
+                    &#xD7;
+                </span>
             </p>
         </div>
         <div class="field">
@@ -30,6 +33,9 @@
                 <input type="text" class="input" placeholder="{{ __('messages.search.author.placeholder') }}" wire:model.live.debounce.500ms="search.author">
                 <span class="icon is-small is-left">
                     <svg style="height:1em;" viewBox="0 0 12 13"><g stroke-width="2" stroke="#999999" fill="none"><path d="M11.29 11.71l-4-4"/><circle cx="5" cy="5" r="4"/></g></svg>
+                </span>
+                <span class="icon is-small is-right is-clickable" title="Clear" wire:click="clearSearch('author')">
+                    &#xD7;
                 </span>
             </p>
         </div>

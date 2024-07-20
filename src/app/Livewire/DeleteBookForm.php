@@ -76,21 +76,22 @@ class DeleteBookForm extends Component
      * $selectedOnPage possible values:
      * - ['ids' => ['1', '2']]: individual books/page selection using array of ids
      * - ['title' => '', 'author' => '']: all selection using the search params
-     * 
+     *
      * @param  array  $selectedOnPage  defines the elements to delete
      */
     private function queryBulkBooks(array $selectedOnPage): Builder
     {
         $query = Book::query();
-        if (array_key_exists('title', $selectedOnPage) && !empty($selectedOnPage['title'])) {
+        if (array_key_exists('title', $selectedOnPage) && ! empty($selectedOnPage['title'])) {
             $query->where('title', 'LIKE', "%{$selectedOnPage['title']}%");
         }
-        if (array_key_exists('author', $selectedOnPage) && !empty($selectedOnPage['author'])) {
+        if (array_key_exists('author', $selectedOnPage) && ! empty($selectedOnPage['author'])) {
             $query->where('author', 'LIKE', "%{$selectedOnPage['author']}%");
         }
-        if (array_key_exists('ids', $selectedOnPage) && !empty($selectedOnPage['ids'])) {
+        if (array_key_exists('ids', $selectedOnPage) && ! empty($selectedOnPage['ids'])) {
             $query->whereIn('id', $selectedOnPage['ids']);
         }
+
         return $query;
     }
 

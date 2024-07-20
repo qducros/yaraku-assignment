@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Book;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -90,6 +90,16 @@ class BooksTable extends Component
         $this->reset('orderDirection');
         $this->reset('orderField');
         $this->resetPage();
+    }
+
+    /**
+     * Clear the corresponding search param.
+     *
+     * @param  string  $name  defines the search param name
+     */
+    public function clearSearch($name): void
+    {
+        $this->search[$name] = '';
     }
 
     /**
@@ -200,6 +210,7 @@ class BooksTable extends Component
      * - ['ids' => []]: no selection, warning feedback to user
      * - ['ids' => ['1', '2']]: individual books/page selection using array of ids. dispatch event to bulk
      * - ['title' => '', 'author' => '']: all selection using the search params, dispatch event to bulk
+     *
      * @param  string  $action  defines the action the user is about to make
      */
     #[On('requestSelectionFromParent')]
