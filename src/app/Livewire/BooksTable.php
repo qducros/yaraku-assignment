@@ -70,7 +70,7 @@ class BooksTable extends Component
      * reset the page (going back to page 1)
      * Reset the selection related properties (selection and selectAll).
      */
-    public function updatingPerPage(): void
+    public function updatedPerPage(): void
     {
         $this->reset('selection');
         $this->reset('selectAll');
