@@ -67,20 +67,27 @@ class BooksTable extends Component
     /**
      * On perPage change, the selected page number remains the same.
      * To avoid issues of the user staying on a page that doesn't have results anymore,
-     * we reset the page (going back to page 1)
+     * reset the page (going back to page 1)
+     * Reset the selection related properties (selection and selectAll).
      */
     public function updatingPerPage(): void
     {
+        $this->reset('selection');
+        $this->reset('selectAll');
         $this->resetPage();
     }
 
     /**
-     * On search change, we reset the selection related properties (selection and selectAll).
+     * On search change, the selected page number remains the same.
+     * To avoid issues of the user staying on a page that doesn't have results anymore,
+     * reset the page (going back to page 1)
+     * Reset the selection related properties (selection and selectAll).
      */
-    public function updatingSearch(): void
+    public function updatedSearch(): void
     {
         $this->reset('selection');
         $this->reset('selectAll');
+        $this->resetPage();
     }
 
     /**

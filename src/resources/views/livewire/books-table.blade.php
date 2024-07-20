@@ -80,7 +80,7 @@
     <div class="table-container">
         <table class="table is-fullwidth">
             <thead class="has-background-link">
-                <tr>
+                <tr>    
                     @if(count($books) > 0)
                         <th>
                             <input id="page-checkbox-{{ $books->currentPage() }}" type="checkbox" @click="$dispatch('page_checkbox_clicked')"
@@ -95,27 +95,32 @@
             </thead>
             <tbody>
                 @if(count($books) > 0)
-                    <tr>
-                        <template x-if="select_all">
-                            <td colspan="5" class="has-background-light has-text-centered">
-                                <span>{{ __('messages.table.selection.all') }}
-                                <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">{{ __('messages.table.selection.deselect') }}{{' '}}<strong>{{ $books->total() }}</strong></a></span>
-                            </td>
-                        </template>
-                        <template x-if="!select_all && books_ids.every(r => selection.includes(r))">
-                            <td colspan="5" class="has-background-light has-text-centered">
-                                <span><strong>{{ count($books) }}</strong>{{' '}}{{ __('messages.table.selection.page') }}
-                                <a href="#" class="ml-2" x-on:click.prevent="select_all = !select_all">{{ __('messages.table.selection.select') }}{{' '}}<strong>{{ $books->total() }}</strong></a></span>
-                            </td>
-                        </template>
+                    <tr x-show="books_ids.every(r => selection.includes(r))">
+                        <td colspan="5" class="has-background-light has-text-centered" x-show="select_all">
+                            <span>{{ __('messages.table.selection.all') }}
+                            @if($books->total() !== count($books))
+                                <a href="#" class="ml-2" x-on:click.prevent="() => {select_all = false; selection = [];}">
+                                    {{ __('messages.table.selection.deselect') }}{{' '}}<strong>{{ $books->total() }}</strong></a>
+                            @endif
+                            </span>
+                        </td>
+                        <td colspan="5" class="has-background-light has-text-centered" x-show="!select_all">
+                            <span><strong>{{ count($books) }}</strong>{{' '}}{{ __('messages.table.selection.page') }}
+                            @if($books->total() !== count($books))
+                                <a href="#" class="ml-2" x-on:click.prevent="select_all = true">
+                                    {{ __('messages.table.selection.select') }}{{' '}}<strong>{{ $books->total() }}</strong></a>
+                            @endif
+                            </span>
+                        </td>
                     </tr>
                 @endif
+
                 @forelse($books as $book)
                     <div wire:key="{{ $book->id }}">
                         <tr>
                             <td>
                                 <input id="checkbox-{{ $book->id }}" type="checkbox" wire:model="selection" value="{{ $book->id }}"
-                                @page_checkbox_clicked.window="(e) => e.target.checked !== $el.checked && $el.click()">
+                                @page_checkbox_clicked.window="(e) => e.target.checked !== $el.checked && $el.click()" @click="(select_all && !$el.checked) && (select_all = false)">
                             </td>
                             <td>
                                 <span class="has-text-black has-text-weight-bold">
