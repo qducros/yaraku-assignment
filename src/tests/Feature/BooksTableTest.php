@@ -9,7 +9,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Define the tests related to the BooksTable class
+ * Define the tests related to the BooksTable class.
  * 
  * test_component_renders_successfully_on_the_page
  * test_component_contains_empty_table

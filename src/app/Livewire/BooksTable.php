@@ -133,6 +133,7 @@ class BooksTable extends Component
             $this->orderField = $name;
             $this->reset('orderDirection');
         }
+        $this->reset('action');
         $this->reset('selection');
         $this->reset('selectAll');
     }
