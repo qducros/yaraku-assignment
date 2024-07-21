@@ -12,6 +12,7 @@ return [
     */
 
     'search' => [
+        'clear' => 'Effacer',
         'title' => [
             'label' => 'Recherche par Titre',
             'placeholder' => 'Rechercher un titre de livre',
@@ -114,4 +115,5 @@ return [
         'french' => 'Français',
         'spanish' => 'Espagnol',
     ],
+    'top' => 'Top',
 ];
