@@ -31,15 +31,15 @@ jobs:
         run: |
           cp .env.ci .env
       
-      - name: Run composer
-        working-directory: ./src
-        run: |
-          composer install --no-interaction
-
       - name: Generate Application Key
         working-directory: ./src
         run: |
           php artisan key:generate
+      
+      - name: Run composer
+        working-directory: ./src
+        run: |
+          composer install --no-interaction
 
       - name: Run test suite
         working-directory: ./src
