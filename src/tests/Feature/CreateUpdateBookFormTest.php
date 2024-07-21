@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 /**
  * Define the tests related to the CreateUpdateBookForm class.
- * 
+ *
  * test_can_create_book_with_valid_input
  * test_cant_create_book_with_too_short_input
  * test_cant_create_book_without_required_input
@@ -107,7 +107,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->assertDispatched('cancelAction');
         $booksTable->call('onCancelAction', $createUpdateBookForm->action)
             ->assertSet('action', '');
-        
+
         $this->assertDatabaseCount('books', 0);
     }
 
@@ -219,7 +219,7 @@ class CreateUpdateBookFormTest extends TestCase
         $booksTable->call('onCancelAction', $createUpdateBookForm->action)
             ->assertSet('action', '')
             ->assertSee(['Lord of the Rings', 'Tolkien']);
-        
+
         $this->assertDatabaseCount('books', 1);
     }
 
@@ -252,7 +252,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->call('setAction', 'edit-'.$book2->id)
             ->assertSet('action', 'edit-'.$book2->id)
             ->assertSee(['Lord of the Rings', 'Tolkien', 'Silmarillion']);
-        
+
         $this->assertDatabaseCount('books', 2);
     }
 
@@ -274,7 +274,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->assertSet('action', '')
             ->assertSee('Lord of the Rings')
             ->assertSee('Tolkien');
-        
+
         $this->assertDatabaseCount('books', 31);
     }
 
@@ -296,7 +296,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->assertSet('action', '')
             ->assertSee('Lord of the Rings')
             ->assertSee('Tolkien');
-        
+
         $this->assertDatabaseCount('books', 31);
     }
 
@@ -317,7 +317,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->assertSet('action', '')
             ->assertSee('Lord of the Rings')
             ->assertSee('Tolkien');
-        
+
         $this->assertDatabaseCount('books', 31);
     }
 
@@ -339,7 +339,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->call('setOrderField', 'updated_at')
             ->assertSee('Lord of the Rings')
             ->assertSee('Tolkien');
-        
+
         $this->assertDatabaseCount('books', 31);
     }
 }

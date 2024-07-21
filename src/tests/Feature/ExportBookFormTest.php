@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 /**
  * Define the tests related to the ExportBookForm class.
- * 
+ *
  * test_can_export_all_books_title_and_author_in_csv
  * test_can_export_all_books_title_in_csv
  * test_can_export_all_books_author_in_csv
@@ -245,7 +245,7 @@ class ExportBookFormTest extends TestCase
             ->call('setAction', 'delete_bulk')
             ->assertSet('action', 'delete_bulk')
             ->assertSeeHtml($book->title);
-        
+
         Livewire::test(BooksTable::class)
             ->call('setAction', 'export_all')
             ->assertSet('action', 'export_all')
@@ -639,7 +639,7 @@ class ExportBookFormTest extends TestCase
             ->call('setAction', 'export_all')
             ->assertSet('action', 'export_all')
             ->assertSeeHtml($book->title);
-        
+
         Livewire::test(BooksTable::class)
             ->call('setAction', 'export_bulk')
             ->assertSet('action', 'export_bulk')

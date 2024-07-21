@@ -133,13 +133,13 @@ class BooksTable extends Component
             $this->orderField = $name;
             $this->reset('orderDirection');
         }
-        
+
         $actionExploded = explode('-', $this->action);
 
         if (count($actionExploded) === 2) {
             $this->reset('action');
         }
-        
+
         $this->reset('selection');
         $this->reset('selectAll');
     }

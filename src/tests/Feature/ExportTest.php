@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 /**
  * Define the tests related to the ExportController class.
- * 
+ *
  * test_export_csv_with_title_and_author_fields
  * test_export_csv_with_only_title_field
  * test_export_csv_with_only_author_field
@@ -110,7 +110,7 @@ class ExportTest extends TestCase
         $response->sendContent();
         $output = ob_get_clean();
 
-        foreach($books_selection as $book) {
+        foreach ($books_selection as $book) {
             $this->assertStringContainsString('Title,Author', $output);
             $this->assertStringContainsString($book->title, $output);
             $this->assertStringContainsString($book->author, $output);
@@ -135,7 +135,7 @@ class ExportTest extends TestCase
         $response->sendContent();
         $output = ob_get_clean();
 
-        foreach($books_selection as $book) {
+        foreach ($books_selection as $book) {
             $this->assertStringContainsString('Title,Author', $output);
             $this->assertStringContainsString($book->title, $output);
             $this->assertStringContainsString($book->author, $output);

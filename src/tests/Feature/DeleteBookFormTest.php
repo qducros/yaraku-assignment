@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 /**
  * Define the tests related to the DeleteBookForm class.
- * 
+ *
  * test_can_delete_single_book
  * test_can_cancel_single_book_delete
  * test_can_cancel_single_book_delete_by_reclicking_delete
@@ -43,7 +43,7 @@ class DeleteBookFormTest extends TestCase
             ->call('setAction', 'delete-'.$book->id)
             ->assertSet('action', 'delete-'.$book->id);
         $deleteBookForm = Livewire::test(DeleteBookForm::class, ['action' => $booksTable->action])
-            ->assertSee('Are you sure you want to delete this book? You won\'t be able to go back.')    
+            ->assertSee('Are you sure you want to delete this book? You won\'t be able to go back.')
             ->call('delete')
             ->assertDispatched('completeAction');
 
@@ -71,14 +71,14 @@ class DeleteBookFormTest extends TestCase
         $booksTable->call('onCancelAction', $deleteBookForm->action)
             ->assertSet('action', '')
             ->assertSee(['Lord of the Rings', 'Tolkien']);
-        
+
         $this->assertDatabaseCount('books', 1);
     }
 
     public function test_can_cancel_single_book_delete_by_reclicking_delete()
     {
         $book = Book::factory()->create(['title' => 'Lord of the Rings', 'author' => 'Tolkien']);
-        
+
         $this->assertDatabaseCount('books', 1);
 
         Livewire::test(BooksTable::class)
@@ -104,9 +104,9 @@ class DeleteBookFormTest extends TestCase
             ->call('setAction', 'delete-'.$book2->id)
             ->assertSet('action', 'delete-'.$book2->id)
             ->assertSee(['Lord of the Rings', 'Tolkien', 'Silmarillion']);
-            
+
         $this->assertDatabaseCount('books', 2);
-        }
+    }
 
     public function test_can_cancel_single_book_delete_by_page_update()
     {
@@ -126,7 +126,7 @@ class DeleteBookFormTest extends TestCase
             ->assertSet('action', '')
             ->assertSee('Lord of the Rings')
             ->assertSee('Tolkien');
-        
+
         $this->assertDatabaseCount('books', 31);
     }
 
@@ -148,7 +148,7 @@ class DeleteBookFormTest extends TestCase
             ->assertSet('action', '')
             ->assertSee('Lord of the Rings')
             ->assertSee('Tolkien');
-        
+
         $this->assertDatabaseCount('books', 31);
     }
 
@@ -169,7 +169,7 @@ class DeleteBookFormTest extends TestCase
             ->assertSet('action', '')
             ->assertSee('Lord of the Rings')
             ->assertSee('Tolkien');
-        
+
         $this->assertDatabaseCount('books', 31);
     }
 
@@ -191,7 +191,7 @@ class DeleteBookFormTest extends TestCase
             ->call('setOrderField', 'updated_at')
             ->assertSee('Lord of the Rings')
             ->assertSee('Tolkien');
-        
+
         $this->assertDatabaseCount('books', 31);
     }
 
@@ -211,7 +211,7 @@ class DeleteBookFormTest extends TestCase
             ->assertSet('bookIds', $selection)
             ->set('selection', $selection);
         $deleteBookForm = Livewire::test(DeleteBookForm::class, ['action' => $booksTable->action])
-            ->assertSee('Are you sure you want to delete the selected books? You won\'t be able to go back.')        
+            ->assertSee('Are you sure you want to delete the selected books? You won\'t be able to go back.')
             ->assertSet('action', 'delete_bulk')
             ->call('delete')
             ->assertDispatched('requestSelectionFromParent', action: $booksTable->action);
@@ -247,7 +247,7 @@ class DeleteBookFormTest extends TestCase
             ->assertSet('bookIds', $selection)
             ->set('selectAll', $selectAll);
         $deleteBookForm = Livewire::test(DeleteBookForm::class, ['action' => $booksTable->action])
-            ->assertSee('Are you sure you want to delete the selected books? You won\'t be able to go back.')        
+            ->assertSee('Are you sure you want to delete the selected books? You won\'t be able to go back.')
             ->assertSet('action', 'delete_bulk')
             ->call('delete')
             ->assertDispatched('requestSelectionFromParent', action: $booksTable->action);
@@ -288,7 +288,7 @@ class DeleteBookFormTest extends TestCase
             ->assertSet('bookIds', $selection)
             ->set('selectAll', $selectAll);
         $deleteBookForm = Livewire::test(DeleteBookForm::class, ['action' => $booksTable->action])
-            ->assertSee('Are you sure you want to delete the selected books? You won\'t be able to go back.')        
+            ->assertSee('Are you sure you want to delete the selected books? You won\'t be able to go back.')
             ->assertSet('action', 'delete_bulk')
             ->call('delete')
             ->assertDispatched('requestSelectionFromParent', action: $booksTable->action);
@@ -325,7 +325,7 @@ class DeleteBookFormTest extends TestCase
             ->assertSeeHtml($books[0]->title)
             ->assertSet('bookIds', $bookIds);
         $deleteBookForm = Livewire::test(DeleteBookForm::class, ['action' => $booksTable->action])
-            ->assertSee('Are you sure you want to delete the selected books? You won\'t be able to go back.')        
+            ->assertSee('Are you sure you want to delete the selected books? You won\'t be able to go back.')
             ->assertSet('action', 'delete_bulk')
             ->call('delete')
             ->assertDispatched('requestSelectionFromParent', action: $booksTable->action);
@@ -356,7 +356,7 @@ class DeleteBookFormTest extends TestCase
             ->assertSeeHtml($book->title)
             ->assertSet('bookIds', $bookIds);
         Livewire::test(DeleteBookForm::class, ['action' => $booksTable->action])
-            ->assertSee('Are you sure you want to delete the selected books? You won\'t be able to go back.')        
+            ->assertSee('Are you sure you want to delete the selected books? You won\'t be able to go back.')
             ->assertSet('action', 'delete_bulk')
             ->call('cancel')
             ->assertDispatched('cancelAction');
@@ -387,7 +387,7 @@ class DeleteBookFormTest extends TestCase
             ->call('setAction', 'export_all')
             ->assertSet('action', 'export_all')
             ->assertSeeHtml($book->title);
-        
+
         Livewire::test(BooksTable::class)
             ->call('setAction', 'delete_bulk')
             ->assertSet('action', 'delete_bulk')

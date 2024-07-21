@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 /**
  * Define the tests related to the BooksTable class.
- * 
+ *
  * test_component_renders_successfully_on_the_page
  * test_component_contains_empty_table
  * test_component_contains_non_empty_table
@@ -82,7 +82,7 @@ class BooksTableTest extends TestCase
         Livewire::test(BooksTable::class)
             ->assertSeeInOrder([$book1->title, $book2->title])
             ->assertSeeInOrder([$book1->author, $book2->author]);
-        }
+    }
 
     public function test_can_sort_books_by_title_via_table_header_click()
     {
@@ -312,7 +312,7 @@ class BooksTableTest extends TestCase
     }
 
     public function test_can_sort_filter_paginate_books_via_user_interface()
-    {        
+    {
         $books1 = Book::factory(10)->create(['title' => 'Lord of the Rings', 'author' => 'Tolkien']);
         $books2 = Book::factory(10)->create(['title' => 'Silmarillion', 'author' => 'Tolkien']);
         $books3 = Book::factory(10)->create(['title' => 'Troy', 'author' => 'Gemmell']);
