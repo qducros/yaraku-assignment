@@ -96,6 +96,7 @@ class ExportController extends Controller
     /**
      * Return the book query corresponding to the selection.
      * $this->selection possible values:
+     * - ['all']: all selection regardless of search params
      * - ['ids' => ['1', '2']]: individual books/page selection using array of ids
      * - ['title' => '', 'author' => '']: all selection using the search params
      */

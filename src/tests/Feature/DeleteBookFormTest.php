@@ -355,7 +355,7 @@ class DeleteBookFormTest extends TestCase
             ->assertSet('action', 'delete_bulk')
             ->assertSeeHtml($book->title)
             ->assertSet('bookIds', $bookIds);
-        $deleteBookForm = Livewire::test(DeleteBookForm::class, ['action' => $booksTable->action])
+        Livewire::test(DeleteBookForm::class, ['action' => $booksTable->action])
             ->assertSee('Are you sure you want to delete the selected books? You won\'t be able to go back.')        
             ->assertSet('action', 'delete_bulk')
             ->call('cancel')
@@ -368,7 +368,7 @@ class DeleteBookFormTest extends TestCase
         $this->assertDatabaseCount('books', 1);
     }
 
-    public function test_can_cancel_bulk_delete_book_by_clicking_create_or_export_all()
+    public function test_can_cancel_bulk_delete_book_by_clicking_other_action()
     {
         $book = Book::factory()->create(['title' => 'Lord of the Rings', 'author' => 'Tolkien']);
 
