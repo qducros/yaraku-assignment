@@ -133,7 +133,13 @@ class BooksTable extends Component
             $this->orderField = $name;
             $this->reset('orderDirection');
         }
-        $this->reset('action');
+        
+        $actionExploded = explode('-', $this->action);
+
+        if (count($actionExploded) === 2) {
+            $this->reset('action');
+        }
+        
         $this->reset('selection');
         $this->reset('selectAll');
     }
@@ -218,12 +224,17 @@ class BooksTable extends Component
     public function onRequestSelectionFromParent(string $action): void
     {
         $selectedOnPage = $this->selectAll ? $this->search : ['ids' => array_intersect($this->selection, $this->bookIds)];
-        if (array_key_exists('ids', $this->selection) && empty($this->selection['ids'])) {
+
+        if (empty($this->bookIds)) {
             Session::flash('warning', __('messages.feedback.warning.no_selection'));
-        } elseif ($action === 'delete_bulk') {
-            $this->dispatch('deleteSelectionFromParent', selectedOnPage: $selectedOnPage);
-        } elseif ($action === 'export_bulk') {
-            $this->dispatch('exportSelectionFromParent', selectedOnPage: $selectedOnPage);
+        } else {
+            if (array_key_exists('ids', $selectedOnPage) && empty($selectedOnPage['ids'])) {
+                Session::flash('warning', __('messages.feedback.warning.no_selection'));
+            } elseif ($action === 'delete_bulk') {
+                $this->dispatch('deleteSelectionFromParent', selectedOnPage: $selectedOnPage);
+            } elseif ($action === 'export_bulk') {
+                $this->dispatch('exportSelectionFromParent', selectedOnPage: $selectedOnPage);
+            }
         }
     }
 

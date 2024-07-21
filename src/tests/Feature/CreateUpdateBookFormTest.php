@@ -120,7 +120,7 @@ class CreateUpdateBookFormTest extends TestCase
             ->assertSet('action', '');
     }
 
-    // Test on book edit 11
+    // Test on book edit (11)
     public function test_edit_component_displays_current_book_title_and_author()
     {
         $book = Book::factory()->create(['title' => 'Lord of the Rings', 'author' => 'Tolkien']);
@@ -170,7 +170,7 @@ class CreateUpdateBookFormTest extends TestCase
         $booksTable = Livewire::test(BooksTable::class)
             ->call('setAction', 'edit-'.$book->id)
             ->assertSet('action', 'edit-'.$book->id);
-        Livewire::test(CreateUpdateBookForm::class, ['book' => $book, 'action' => 'edit-'.$book->id])
+        Livewire::test(CreateUpdateBookForm::class, ['book' => $book, 'action' => $booksTable->action])
             ->set(['form.title' => 'b', 'form.author' => 'a'])
             ->call('save')
             ->assertHasErrors(['form.title' => ['min:2']])
@@ -191,7 +191,7 @@ class CreateUpdateBookFormTest extends TestCase
         $booksTable = Livewire::test(BooksTable::class)
             ->call('setAction', 'edit-'.$book->id)
             ->assertSet('action', 'edit-'.$book->id);
-        Livewire::test(CreateUpdateBookForm::class, ['book' => $book, 'action' => 'edit-'.$book->id])
+        Livewire::test(CreateUpdateBookForm::class, ['book' => $book, 'action' => $booksTable->action])
             ->set(['form.title' => '', 'form.author' => ''])
             ->call('save')
             ->assertHasErrors(['form.title' => ['required']])
@@ -252,7 +252,8 @@ class CreateUpdateBookFormTest extends TestCase
             ->call('setAction', 'edit-'.$book2->id)
             ->assertSet('action', 'edit-'.$book2->id)
             ->assertSee(['Lord of the Rings', 'Tolkien', 'Silmarillion']);
-            $this->assertDatabaseCount('books', 2);
+        
+        $this->assertDatabaseCount('books', 2);
     }
 
     public function test_can_cancel_book_edit_by_page_update()
